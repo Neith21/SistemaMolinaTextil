@@ -15,6 +15,7 @@ CREATE TABLE InventoryRawMaterials(
 );
 GO
 
+-- Datos del cliente
 CREATE TABLE CustomerOrder(
 	CustomerOrderID INT NOT NULL PRIMARY KEY IDENTITY(1, 1),
 	CustomerName NVARCHAR(50) NOT NULL,
@@ -22,9 +23,10 @@ CREATE TABLE CustomerOrder(
 );
 GO
 
+-- Detalles de la orden del cliente
 CREATE TABLE CustomerOrderDetails(
 	CustomerOrderDetailsID INT NOT NULL PRIMARY KEY IDENTITY(1, 1),
-	CustomerOrderID INT NOT NULL,
+	CustomerOrderID INT FOREIGN KEY REFERENCES CustomerOrder(CustomerOrderID)  NOT NULL,
 	CustomerOrderIssue NVARCHAR(50) NOT NULL,
 	CustomerOrderDescription NVARCHAR(255) NOT NULL,
 	TextileRecipe NVARCHAR(255),
@@ -32,12 +34,13 @@ CREATE TABLE CustomerOrderDetails(
 );
 GO
 
-CREATE TABLE Customers(
-	CustomerID INT NOT NULL PRIMARY KEY IDENTITY(1, 1),
-	CustomerName NVARCHAR(50) NOT NULL,
-	CustomerContact NVARCHAR(50) NOT NULL,
-	CustomerUsername NVARCHAR(50) NOT NULL,
-	CustomerPassword NVARCHAR(50) NOT NULL,
-	CustomerRolID INT NOT NULL
+-- Datos de los empleados
+CREATE TABLE Employee (
+    EmployeeID INT NOT NULL PRIMARY KEY IDENTITY(1, 1),
+    EmployeeName NVARCHAR(50) NOT NULL,
+    EmployeeContact NVARCHAR(50) NOT NULL,
+    EmployeeUsername NVARCHAR(50) NOT NULL,
+    EmployeePassword NVARCHAR(50) NOT NULL,
+    EmployeeRoleID INT NOT NULL
 );
 GO
