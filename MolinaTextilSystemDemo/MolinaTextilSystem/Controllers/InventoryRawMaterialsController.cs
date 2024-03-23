@@ -53,14 +53,14 @@ namespace MolinaTextilSystem.Controllers
         // GET: InventoryRawMaterialsController/Edit/5
         public ActionResult Edit(int id)
         {
-            var university = _inventoryRawMaterialsRepository.GetById(id);
+            var InventoryRawMaterials = _inventoryRawMaterialsRepository.GetById(id);
 
-            if (university == null)
+            if (InventoryRawMaterials == null)
             {
                 return NotFound();
             }
 
-            return View(university);
+            return View(InventoryRawMaterials);
         }
 
         // POST: InventoryRawMaterialsController/Edit/5
@@ -85,14 +85,14 @@ namespace MolinaTextilSystem.Controllers
         // GET:InventoryRawMaterialsController/Delete/5
         public ActionResult Delete(int id)
         {
-            var university = _inventoryRawMaterialsRepository.GetById(id);
+            var InventoryRawMaterials = _inventoryRawMaterialsRepository.GetById(id);
 
-            if (university == null)
+            if (InventoryRawMaterials == null)
             {
                 return NotFound();
             }
 
-            return View(university);
+            return View(InventoryRawMaterials);
         }
 
         // POST: InventoryRawMaterialsController/Delete/5

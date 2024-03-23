@@ -29,7 +29,7 @@ namespace MolinaTextilSystem.Repositories.InventoryRawMaterials
             {
                 string query = @"SELECT RawMaterialID, RawMaterialName, RawMaterialDescription, SupplierContact, StockQuantity, StockQuantityUsed FROM InventoryRawMaterials WHERE RawMaterialID = @RawMaterialID";
 
-                return connection.QueryFirstOrDefault<InventoryRawMaterialsModel>(query, new { Id = id });
+                return connection.QueryFirstOrDefault<InventoryRawMaterialsModel>(query, new { RawMaterialID = id });
             }
         }
 
@@ -59,7 +59,7 @@ namespace MolinaTextilSystem.Repositories.InventoryRawMaterials
             {
                 string query = "DELETE FROM InventoryRawMaterials WHERE RawMaterialID = @RawMaterialID";
 
-                connection.Execute(query, new { id });
+                connection.Execute(query, new { RawMaterialID = id });
             }
         }
     }
