@@ -15,8 +15,10 @@ namespace MolinaTextilSystem.Controllers
         }
 
         // GET: CustomerOrderController
-        public ActionResult Index()
+        public ActionResult Index(EmployeeRol employeeRol) 
         {
+            ViewData["EmployeeRol"] = employeeRol;
+
             return View(_customerOrderRepository.GetAll());
         }
 

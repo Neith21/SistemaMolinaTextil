@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Índice";
+    var employeeRolID = (EmployeeRol)ViewData["EmployeeRol"];
 }
 
 <h1>Índice</h1>
@@ -65,7 +66,10 @@
                 </td>
                 <td>
                     <a asp-controller="CustomerOrder" asp-action="Edit" asp-route-id="@item.CustomerOrderID" class="btn btn-primary">Editar</a>
-                    <a asp-controller="CustomerOrder" asp-action="Delete" asp-route-id="@item.CustomerOrderID" class="btn btn-danger">Eliminar</a>
+                    @if (employeeRolID == EmployeeRol.Employee)
+                    {
+                        <a asp-controller="CustomerOrder" asp-action="Delete" asp-route-id="@item.CustomerOrderID" class="btn btn-danger">Eliminar</a>
+                    }
                 </td>
             </tr>
         }

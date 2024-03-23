@@ -26,6 +26,12 @@ CREATE TABLE CustomerOrder(
 );
 GO
 
+CREATE TABLE Roles(
+	RolID INT NOT NULL PRIMARY KEY IDENTITY(1, 1),
+	RolName NVARCHAR(50),
+	RolDescription NVARCHAR(255)
+);
+
 -- Datos de los empleados
 CREATE TABLE Employee (
     EmployeeID INT NOT NULL PRIMARY KEY IDENTITY(1, 1),
@@ -33,7 +39,7 @@ CREATE TABLE Employee (
     EmployeeContact NVARCHAR(50) NOT NULL,
     EmployeeUsername NVARCHAR(50) NOT NULL,
     EmployeePassword NVARCHAR(50) NOT NULL,
-    EmployeeRoleID INT NOT NULL
+    EmployeeRolID INT FOREIGN KEY REFERENCES Roles(RolID) NOT NULL
 );
 GO
 -- Agregar datos a la tabla InventoryRawMaterials
@@ -50,8 +56,14 @@ VALUES
     ('Jane Smith', 'Delayed delivery', 'Ordered polyester fabric for dresses', 'Polyester 80%, Spandex 20%', 300),
     ('Alice Johnson', 'Defective material', 'Ordered wool fabric for sweaters', '100% Pure Wool', 400);
 
+-- Agregar datos a la tabla Roles
+INSERT INTO Roles(RolName, RolDescription)
+VALUES 
+    ('Administrator', 'Rol Con Mayor Privilegio'),
+    ('Employee', 'Rol para Empleados');
+
 -- Agregar datos a la tabla Employee
-INSERT INTO Employee (EmployeeName, EmployeeContact, EmployeeUsername, EmployeePassword, EmployeeRoleID)
+INSERT INTO Employee (EmployeeName, EmployeeContact, EmployeeUsername, EmployeePassword, EmployeeRolID)
 VALUES 
     ('Admin User', 'admin@gmail.com', 'admin', 'adminpassword', 1),
     ('John Smith', 'john@gmail.com.com', 'john', 'johnpassword', 2),
