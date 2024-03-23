@@ -44,3 +44,30 @@ CREATE TABLE Employee (
     EmployeeRoleID INT NOT NULL
 );
 GO
+-- Agregar datos a la tabla InventoryRawMaterials
+INSERT INTO InventoryRawMaterials (RawMaterialName, RawMaterialDescription, SupplierContact, StockQuantity, StockQuantityUsed)
+VALUES ('Cotton', 'High-quality cotton material', 'Supplier1@gmail.com', 1000, 0),
+       ('Polyester', 'Polyester fabric for various uses', 'Supplier2@gmail.com', 800, 0),
+       ('Wool', 'Fine wool material for luxury products', 'Supplier3@gmail.com', 500, 0);
+GO
+-- Agregar datos a la tabla CustomerOrder
+INSERT INTO CustomerOrder (CustomerName, TotalAmount)
+VALUES ('John Doe', 500),
+       ('Jane Smith', 700),
+       ('Alice Johnson', 900);
+GO
+-- Agregar datos a la tabla CustomerOrderDetails
+INSERT INTO CustomerOrderDetails (CustomerOrderID, CustomerOrderIssue, CustomerOrderDescription, TextileRecipe, Amount)
+VALUES (1, 'Delayed delivery', 'Ordered cotton fabric for shirts', 'Cotton 100%', 200),
+       (2, 'Incorrect color', 'Ordered polyester fabric for dresses', 'Polyester 80%, Spandex 20%', 300),
+       (3, 'Defective material', 'Ordered wool fabric for sweaters', '100% Pure Wool', 400);
+GO
+-- Agregar datos a la tabla Employee
+INSERT INTO Employee (EmployeeName, EmployeeContact, EmployeeUsername, EmployeePassword, EmployeeRoleID)
+VALUES ('Admin User', 'admin@gmail.com', 'admin', 'adminpassword', 1),
+       ('John Smith', 'john@gmail.com', 'john', 'johnpassword', 2),
+       ('Emily Johnson', 'emily@gmail.com', 'emily', 'emilypassword', 2);
+GO
+Update Employee set EmployeeName = 'John Cena', EmployeeContact = 'cena@gmail.com' where EmployeeID = 1
+Go
+Select * From Employee
