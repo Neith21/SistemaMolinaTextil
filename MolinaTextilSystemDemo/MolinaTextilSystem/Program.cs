@@ -1,4 +1,5 @@
 using MolinaTextilSystem.Data;
+using MolinaTextilSystem.Repositories.CustomerOrder;
 using MolinaTextilSystem.Repositories.InventoryRawMaterials;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +9,8 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddSingleton<ISqlDataAccess, SqlDataAccess>();
 builder.Services.AddScoped<IInventoryRawMaterialsRepository, InventoryRawMaterialsRepository>();
+
+builder.Services.AddScoped<ICustomerOrderRepository, CustomerOrderRepository>();
 
 var app = builder.Build();
 
