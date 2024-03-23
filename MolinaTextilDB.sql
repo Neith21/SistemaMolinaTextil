@@ -31,3 +31,13 @@ CREATE TABLE CustomerOrderDetails(
 	Amount MONEY NOT NULL
 );
 GO
+
+CREATE TABLE Customers(
+	CustomerID INT NOT NULL PRIMARY KEY IDENTITY(1, 1),
+	CustomerName NVARCHAR(50) NOT NULL,
+	CustomerContact NVARCHAR(50) NOT NULL,
+	CustomerUsername NVARCHAR(50) NOT NULL,
+	CustomerPassword NVARCHAR(50) NOT NULL,
+	CustomerRolID INT NOT NULL
+);
+GO
