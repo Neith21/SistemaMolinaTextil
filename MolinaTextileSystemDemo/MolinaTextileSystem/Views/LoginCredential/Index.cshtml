@@ -1,0 +1,104 @@
+﻿@model IEnumerable<LoginCredentialModel>
+@{
+	ViewData["Title"] = "Credenciales del empleado";
+}
+
+<h1 style="text-align:center">Credenciales del empleado</h1>
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+
+			<div class="mb-3 mb-3">
+				<a asp-action="Create" asp-controller="LoginCredential" class="btn btn-success">
+					Nueva Editorial
+				</a>
+			</div>
+
+			@if (TempData["message"] != null)
+			{
+				<div class="alert alert-primary" role="alert">
+					@TempData["message"]
+				</div>
+			}
+
+			<table class="table table-bordered table-striped table-responsive" id="loginCredentialTable">
+				<thead>
+					<tr>
+						<td>Credencial ID</td>
+						<td>Empleado</td>
+						<td>Usuario</td>
+						<td>Contraseña</td>
+						<td>Acciones</td>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var loginCredential in Model)
+					{
+						<tr>
+							<td>@Html.DisplayFor(item => loginCredential.LoginCredentialId)</td>
+							<td>@loginCredential.Employee?.EmployeeName</td>
+							<td>@Html.DisplayFor(item => loginCredential.Username)</td>
+							<td>@Html.DisplayFor(item => loginCredential.Password)</td>
+							<td>
+								<a asp-controller="LoginCredential"
+								   asp-action="Edit"
+								   asp-route-id="@loginCredential.LoginCredentialId"
+								   class="btn btn-primary">
+									Editar
+								</a>
+								<a asp-controller="LoginCredential"
+								   asp-action="Delete"
+								   asp-route-id="@loginCredential.LoginCredentialId"
+								   class="btn btn-danger">
+									Eliminar
+								</a>
+							</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+@section Scripts {
+	<script>
+		$(document).ready(function () {
+			$("#loginCredentialTable").DataTable({
+				dom: 'Bfrtip',
+				buttons: [
+					{
+						extend: 'csv',
+						exportOptions: {
+							columns: ':not(:last-child)'
+						}
+					},
+					{
+						extend: 'pdf',
+						exportOptions: {
+							columns: ':not(:last-child)'
+						}
+					},
+					{
+						extend: 'excel',
+						exportOptions: {
+							columns: ':not(:last-child)'
+						}
+					}
+				],
+				columnDefs: [
+					{
+						targets: 4,
+						orderable: false,
+						searchable: false
+					}
+				],
+				language: {
+					url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json'
+				}
+			});
+		});
+	</script>
+}
+

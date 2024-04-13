@@ -1,14 +1,31 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using MolinaTextileSystem.Models;
+using MolinaTextileSystem.Repositories.LoginCredentials;
 
 namespace MolinaTextileSystem.Controllers
 {
     public class LoginCredentialController : Controller
     {
+        private readonly ILoginCredentialRepository _loginCredentialRepository;
+
+        private SelectList _employeesList;
+
+        public LoginCredentialController(ILoginCredentialRepository loginCredentialRepository)
+        {
+            _loginCredentialRepository = loginCredentialRepository;
+            _employeesList = new SelectList(
+                _loginCredentialRepository.GetAllEmployees(),
+                nameof(EmployeeModel.EmployeeId),
+                nameof(EmployeeModel.EmployeeName)
+            );
+        }
+
         // GET: LoginCredentialController
         public ActionResult Index()
         {
-            return View();
+            return View(_loginCredentialRepository.GetAll());
         }
 
         // GET: LoginCredentialController/Details/5
@@ -20,21 +37,31 @@ namespace MolinaTextileSystem.Controllers
         // GET: LoginCredentialController/Create
         public ActionResult Create()
         {
+            ViewBag.Employees = _employeesList;
+
             return View();
         }
 
         // POST: LoginCredentialController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(LoginCredentialModel loginCredential)
         {
             try
             {
+                _loginCredentialRepository.Add(loginCredential);
+
+                TempData["message"] = "Datos guardados correctamente.";
+
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                TempData["message"] = ex.Message;
+
+                ViewBag.Employees = _employeesList;
+
+                return View(loginCredential);
             }
         }
 
@@ -42,21 +69,45 @@ namespace MolinaTextileSystem.Controllers
         [HttpGet]
         public ActionResult Edit(int id)
         {
-            return View();
+            var loginCredential = _loginCredentialRepository.GetById(id);
+
+            if (loginCredential == null)
+            {
+                return NotFound();
+            }
+
+            _employeesList = new SelectList(
+                _loginCredentialRepository.GetAllEmployees(),
+                nameof(EmployeeModel.EmployeeId),
+                nameof(EmployeeModel.EmployeeName),
+                loginCredential?.Employee?.EmployeeId
+            );
+
+            ViewBag.Employees = _employeesList;
+
+            return View(loginCredential);
         }
 
         // POST: LoginCredentialController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(LoginCredentialModel loginCredential)
         {
             try
             {
+                _loginCredentialRepository.Edit(loginCredential);
+
+                TempData["message"] = "Datos editados correctamente.";
+
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                TempData["message"] = ex.Message;
+
+                ViewBag.Employees = _employeesList;
+
+                return View(loginCredential);
             }
         }
 
@@ -64,21 +115,34 @@ namespace MolinaTextileSystem.Controllers
         [HttpGet]
         public ActionResult Delete(int id)
         {
-            return View();
+            var loginCredential = _loginCredentialRepository.GetById(id);
+
+            if (loginCredential == null)
+            {
+                return NotFound();
+            }
+
+            return View(loginCredential);
         }
 
         // POST: LoginCredentialController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(LoginCredentialModel loginCredential)
         {
             try
             {
+                _loginCredentialRepository.Delete(loginCredential.LoginCredentialId);
+
+                TempData["message"] = "Dato eliminado correctamente.";
+
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                TempData["message"] = ex.Message;
+
+                return View(loginCredential);
             }
         }
     }
