@@ -183,6 +183,7 @@ BEGIN
 END;
 GO
 
+/*
 CREATE OR ALTER PROCEDURE spLEmployees_GetAll
 AS
 BEGIN
@@ -190,3 +191,80 @@ BEGIN
 	FROM Employees;
 END;
 GO
+*/
+
+--SP Employees--
+
+CREATE OR ALTER PROCEDURE spEmployee_GetById
+(
+	@EmployeeId INT
+)	
+AS
+BEGIN
+	 SELECT EmployeeId, EmployeeName, EmployeeLastname, EmployeeAddress, EmployeePhone, EmployeeEmail
+	 FROM Employees
+	 WHERE EmployeeId = @EmployeeId;
+END
+GO
+
+CREATE OR ALTER PROCEDURE spEmployee_GetAll
+AS
+BEGIN
+	 SELECT EmployeeId, EmployeeName, EmployeeLastname, EmployeeAddress, EmployeePhone, EmployeeEmail
+	 FROM Employees
+END;
+GO
+
+CREATE OR ALTER PROCEDURE spEmployee_Insert
+(
+	@EmployeeName NVARCHAR(50),
+    @EmployeeLastname NVARCHAR(50),
+    @EmployeeAddress VARCHAR(255),
+    @EmployeePhone VARCHAR(30),
+    @EmployeeEmail NVARCHAR(100)
+)
+AS
+BEGIN
+	INSERT INTO Employees
+	VALUES(@EmployeeName, @EmployeeLastname, @EmployeeAddress, @EmployeePhone, @EmployeeEmail);
+END
+GO
+
+CREATE OR ALTER PROCEDURE spEmployee_Update
+(
+	@EmployeeId INT,
+    @EmployeeName NVARCHAR(50),
+    @EmployeeLastname NVARCHAR(50),
+    @EmployeeAddress VARCHAR(255),
+    @EmployeePhone VARCHAR(30),
+    @EmployeeEmail NVARCHAR(100)
+)
+AS
+BEGIN
+    UPDATE Employees
+    SET EmployeeName = @EmployeeName,
+        EmployeeLastname = @EmployeeLastname,
+        EmployeeAddress = @EmployeeAddress,
+		EmployeePhone = @EmployeePhone,
+		EmployeeEmail = @EmployeeEmail
+    WHERE EmployeeId = @EmployeeId;
+END;
+GO
+
+CREATE OR ALTER PROCEDURE spEmployee_Delete
+	@EmployeeId INT
+AS
+BEGIN
+	DELETE FROM Employees
+	WHERE EmployeeId = @EmployeeId;
+END;
+GO
+
+/*
+    EmployeeId INT NOT NULL PRIMARY KEY IDENTITY(1, 1),
+    EmployeeName NVARCHAR(50) NOT NULL,
+    EmployeeLastname NVARCHAR(50) NOT NULL,
+    EmployeeAddress VARCHAR(255) NOT NULL,
+    EmployeePhone VARCHAR(30) NOT NULL,
+    EmployeeEmail NVARCHAR(100) NOT NULL
+*/

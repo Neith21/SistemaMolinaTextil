@@ -1,0 +1,69 @@
+﻿@model EmployeeModel
+
+@{
+    ViewData["Title"] = "Edición de Empleados";
+}
+
+<h1 style="text-align:center">Edición de Empleados</h1>
+<hr />
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <form asp-action="Edit" onsubmit="return confirmAction();">
+                @Html.AntiForgeryToken()
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="mb-3">
+                    <input asp-for="EmployeeId" hidden type="text" class="form-control" />
+                </div>
+                <div class="mb-3">
+                    <label asp-for="EmployeeName" class="form-label">Nombre Empleado</label>
+                    <input asp-for="EmployeeName" type="text" class="form-control" />
+                    <span asp-validation-for="EmployeeName" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="EmployeeLastname" class="form-label">Apellido Empleado</label>
+                    <input asp-for="EmployeeLastname" type="text" class="form-control" />
+                    <span asp-validation-for="EmployeeLastname" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="EmployeeAddress" class="form-label">Direccion Empleado</label>
+                    <input asp-for="EmployeeAddress" type="text" class="form-control" />
+                    <span asp-validation-for="EmployeeAddress" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="EmployeePhone" class="form-label">Telefono Empleado</label>
+                    <input asp-for="EmployeePhone" type="text" class="form-control" />
+                    <span asp-validation-for="EmployeePhone" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="EmployeeEmail" class="form-label">Correo Empleado</label>
+                    <input asp-for="EmployeeEmail" type="text" class="form-control" />
+                    <span asp-validation-for="EmployeeEmail" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Guardar" class="btn btn-primary" />
+                    <a asp-action="Index" class="btn btn-danger">Regresar al listado</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        function confirmAction() {
+            if (confirm('¿Estás seguro de editar este Empleado?')) {
+                return true;
+            } else {
+                window.location.href = '@Url.Action("Index", "Employee")';
+                return false;
+            }
+        }
+    </script>
+}

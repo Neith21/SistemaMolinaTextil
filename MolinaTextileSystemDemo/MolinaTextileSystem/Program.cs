@@ -1,15 +1,16 @@
 using MolinaTextileSystem.Data;
+using MolinaTextileSystem.Repositories.Employees;
 using MolinaTextileSystem.Repositories.LoginCredentials;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
-var app = builder.Build();
-
 builder.Services.AddSingleton<ISqlDataAccess, SqlDataAccess>();
 builder.Services.AddScoped<ILoginCredentialRepository, LoginCredentialRepository>();
+builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+
+var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
