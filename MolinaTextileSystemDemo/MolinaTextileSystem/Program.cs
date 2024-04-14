@@ -1,6 +1,7 @@
 using MolinaTextileSystem.Data;
 using MolinaTextileSystem.Repositories.Employees;
 using MolinaTextileSystem.Repositories.LoginCredentials;
+using MolinaTextileSystem.Repositories.Suppliers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +11,8 @@ builder.Services.AddSingleton<ISqlDataAccess, SqlDataAccess>();
 builder.Services.AddScoped<ILoginCredentialRepository, LoginCredentialRepository>();
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+builder.Services.AddScoped<ISupplierRepository, SupplierRepository>();
+
 
 var app = builder.Build();
 

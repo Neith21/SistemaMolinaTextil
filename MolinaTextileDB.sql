@@ -24,10 +24,6 @@ CREATE TABLE LoginCredentials(
     EmployeeId INT NOT NULL FOREIGN KEY REFERENCES Employees(EmployeeId) ON DELETE CASCADE
 );
 GO
-
-INSERT INTO LoginCredentials VALUES('Juan503', 'Zopa123', 1);
-GO
-
 ---------------------------------------------------------------------
 CREATE TABLE Suppliers(
 	SupplierId INT PRIMARY KEY IDENTITY(1, 1) NOT NULL,
@@ -117,77 +113,88 @@ GO
 
 --SP Credentials--
 CREATE OR ALTER PROCEDURE spLoginCredentials_Delete
-	@LoginCredentialId INT
+	@DetailId INT
 AS
 BEGIN
-	DELETE FROM LoginCredentials
-	WHERE LoginCredentialId = @LoginCredentialId;
+	DELETE FROM LoanDetails
+	WHERE DetailId = @DetailId;
 END;
 GO
 
 CREATE OR ALTER PROCEDURE spLoginCredentials_GetAll
 AS
 BEGIN
-	SELECT lc.LoginCredentialId, lc.Username, lc.Password, e.EmployeeName
-	FROM LoginCredentials lc
-	INNER JOIN Employees e
-	ON lc.EmployeeId = e.EmployeeId;
+	SELECT ld.DetailId, ld.Quantity, ld.LoanId, b.Title
+	FROM LoanDetails ld
+	INNER JOIN Books b
+	ON ld.BookId = b.BookId;
 END;
 GO
 
 CREATE OR ALTER PROCEDURE spLoginCredentials_GetAllSpecific
-	@EmployeeId INT
+	@LoanId INT
 AS
 BEGIN
-	SELECT lc.LoginCredentialId, lc.Username, lc.Password, e.EmployeeName
-	FROM LoginCredentials lc
-	INNER JOIN Employees e
-	ON lc.EmployeeId = e.EmployeeId
-	WHERE lc.EmployeeId = @EmployeeId;
+	SELECT ld.DetailId, ld.Quantity, ld.LoanId, b.Title
+	FROM LoanDetails ld
+	INNER JOIN Books b
+	ON ld.BookId = b.BookId
+	WHERE ld.LoanId = @LoanId;
 END;
 GO
 
 CREATE OR ALTER PROCEDURE spLoginCredentials_GetById
-	@LoginCredentialId INT
+	@DetailId INT
 AS
 BEGIN
-	 SELECT LoginCredentialId, Username, Password, EmployeeId
-	 FROM LoginCredentials
-	 WHERE LoginCredentialId = @LoginCredentialId;
+	 SELECT DetailId, LoanId, BookId, Quantity
+	 FROM LoanDetails
+	 WHERE DetailId = @DetailId;
 END
 GO
 
 CREATE OR ALTER PROCEDURE spLoginCredentials_Insert
 (
-	@Username NVARCHAR(20),
-    @Password NVARCHAR(255),
-    @EmployeeId INT
+	@Quantity INT,
+    @LoanId INT,
+    @BookId INT
 )
 AS
 BEGIN
-	INSERT INTO LoginCredentials
-	VALUES(@Username, @Password, @EmployeeId);
+	INSERT INTO LoanDetails
+	VALUES(@Quantity, @LoanId, @BookId);
 END
 GO
 
 CREATE OR ALTER PROCEDURE spLoginCredentials_Update
 (
-    @LoginCredentialId INT,
-    @Username NVARCHAR(20),
-    @Password NVARCHAR(255),
-    @EmployeeId INT
+    @DetailId INT,
+    @Quantity INT,
+    @LoanId INT,
+    @BookId INT
 )
 AS
 BEGIN
-    UPDATE LoginCredentials
-    SET Username = @Username,
-        Password = @Password,
-		EmployeeId = @EmployeeId
-    WHERE LoginCredentialId = @LoginCredentialId;
+    UPDATE LoanDetails
+    SET Quantity = @Quantity,
+        LoanId = @LoanId,
+        BookId = @BookId
+    WHERE DetailId = @DetailId;
 END;
 GO
 
+/*
+CREATE OR ALTER PROCEDURE spLEmployees_GetAll
+AS
+BEGIN
+	SELECT BookId, Title, AuthorId, PublisherId, PublicationYear, Genre, Quantity
+	FROM Employees;
+END;
+GO
+*/
+
 --SP Employees--
+
 CREATE OR ALTER PROCEDURE spEmployee_GetById
 (
 	@EmployeeId INT
@@ -253,63 +260,70 @@ BEGIN
 END;
 GO
 
---SP Customers--
-CREATE OR ALTER PROCEDURE dbo.spCustomers_GetAll
+
+--SP Suppliers--
+
+CREATE OR ALTER PROCEDURE spSupplier_GetById
+(
+	@SupplierId INT
+)	
 AS
 BEGIN
-    SELECT CustomerID, CustomerName, CustomerAddress, CustomerPhone 
-    FROM Customers;
+	 SELECT SupplierId, SupplierName, Manager, SupplierPhone, SupplierEmail
+	 FROM Suppliers
+	 WHERE SupplierId = @SupplierId;
+END
+GO
+
+CREATE OR ALTER PROCEDURE spSupplier_GetAll
+AS
+BEGIN
+	 SELECT SupplierId, SupplierName, Manager, SupplierPhone, SupplierEmail
+	 FROM Suppliers
 END;
 GO
 
-CREATE OR ALTER PROCEDURE dbo.spCustomers_GetById
+CREATE OR ALTER PROCEDURE spSupplier_Insert
 (
-    @CustomerID INT
+    @SupplierName NVARCHAR(50),
+    @Manager VARCHAR(255),
+    @SupplierPhone VARCHAR(30),
+    @SupplierEmail NVARCHAR(100)
 )
 AS
 BEGIN
-    SELECT CustomerID, CustomerName, CustomerAddress, CustomerPhone 
-    FROM Customers
-    WHERE CustomerID = @CustomerID;
+	INSERT INTO Suppliers
+	VALUES(@SupplierName, @Manager, @SupplierPhone, @SupplierEmail);
+END
+GO
+
+CREATE OR ALTER PROCEDURE spSupplier_Update
+(
+	@SupplierId INT,
+    @SupplierName NVARCHAR(50),
+    @Manager VARCHAR(255),
+    @SupplierPhone VARCHAR(30),
+    @SupplierEmail NVARCHAR(100)
+)
+AS
+BEGIN
+    UPDATE Suppliers
+    SET SupplierName = @SupplierName,
+        Manager = @Manager,
+        SupplierPhone = @SupplierPhone,
+		SupplierEmail = @SupplierEmail
+    WHERE SupplierId = @SupplierId;
 END;
 GO
 
-CREATE OR ALTER PROCEDURE dbo.spCustomers_Insert
-(
-    @CName NVARCHAR(50),
-    @Address NVARCHAR(255),
-    @Phone VARCHAR(20)
-)
+CREATE OR ALTER PROCEDURE spSupplier_Delete
+	@SupplierId INT
 AS
 BEGIN
-    INSERT INTO Customers (CustomerName, CustomerAddress, CustomerPhone)
-    VALUES (@CName, @Address, @Phone);
+	DELETE FROM Suppliers
+	WHERE SupplierId = @SupplierId;
 END;
 GO
 
-CREATE OR ALTER PROCEDURE dbo.spCustomers_Update
-(
-    @CName NVARCHAR(50),
-    @Address NVARCHAR(255),
-    @Phone VARCHAR(20),
-    @CustomerID INT
-)
-AS
-BEGIN
-    UPDATE Customers 
-    SET CustomerName = @CName,
-        CustomerAddress = @Address,
-        CustomerPhone = @Phone
-    WHERE CustomerID = @CustomerID;
-END;
-GO
 
-CREATE OR ALTER PROCEDURE dbo.spCustomers_Delete
-(
-    @CustomerID INT
-)
-AS
-BEGIN
-    DELETE FROM Customers WHERE CustomerID = @CustomerID;
-END;
-GO
+

@@ -1,0 +1,103 @@
+﻿@model IEnumerable<MolinaTextileSystem.Models.SupplierModel>
+
+@{
+	ViewData["Title"] = "Index";
+}
+
+<h1 style="text-align:center">Listado de Proveedores</h1>
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+
+			<div class="mb-3 mb-3">
+				<a asp-action="Create" asp-controller="Supplier" class="btn btn-success">
+					Nuevo Proveedor
+				</a>
+			</div>
+
+			@if (TempData["message"] != null)
+			{
+				<div class="alert alert-primary" role="alert">
+					@TempData["message"]
+				</div>
+			}
+			<table class="table table-bordered table-striped table-responsive" id="supplierTable">
+				<thead>
+					<tr>
+						<td>Nombre Proveedor</td>
+						<td>Manager</td>
+						<td>Telefono Proveedor</td>
+						<td>Correo Proveedor</td>
+						<td>Acciones</td>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var supplier in Model)
+					{
+						<tr>
+							<td>@Html.DisplayFor(item => supplier.SupplierName)</td>
+							<td>@Html.DisplayFor(item => supplier.Manager)</td>
+							<td>@Html.DisplayFor(item => supplier.SupplierPhone)</td>
+							<td>@Html.DisplayFor(item => supplier.SupplierEmail)</td>
+							<td>
+								<a asp-controller="Supplier"
+								   asp-action="Edit"
+								   asp-route-id="@supplier.SupplierId"
+								   class="btn btn-primary">
+									Editar
+								</a>
+								<a asp-controller="Supplier"
+								   asp-action="Delete"
+								   asp-route-id="@supplier.SupplierId"
+								   class="btn btn-danger">
+									Eliminar
+								</a>
+							</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+@section Scripts {
+	<script>
+		$(document).ready(function () {
+			$("#supplierTable").DataTable({
+				dom: 'Bfrtip',
+				buttons: [
+					{
+						extend: 'csv',
+						exportOptions: {
+							columns: ':not(:last-child)'
+						}
+					},
+					{
+						extend: 'pdf',
+						exportOptions: {
+							columns: ':not(:last-child)'
+						}
+					},
+					{
+						extend: 'excel',
+						exportOptions: {
+							columns: ':not(:last-child)'
+						}
+					}
+				],
+				columnDefs: [
+					{
+						targets: 4,
+						orderable: false,
+						searchable: false
+					}
+				],
+				language: {
+					url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json'
+				}
+			});
+		});
+	</script>
+}

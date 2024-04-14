@@ -7,13 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Repositories\Suppliers\**" />
-    <Content Remove="Repositories\Suppliers\**" />
-    <EmbeddedResource Remove="Repositories\Suppliers\**" />
-    <None Remove="Repositories\Suppliers\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="Views\Customer\Create.cshtml" />
     <None Include="Views\Customer\Delete.cshtml" />
     <None Include="Views\Customer\Edit.cshtml" />
