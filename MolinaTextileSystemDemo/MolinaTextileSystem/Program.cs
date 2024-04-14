@@ -9,6 +9,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<ISqlDataAccess, SqlDataAccess>();
 builder.Services.AddScoped<ILoginCredentialRepository, LoginCredentialRepository>();
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 
 var app = builder.Build();
 

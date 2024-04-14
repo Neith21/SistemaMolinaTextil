@@ -18,7 +18,7 @@ namespace MolinaTextileSystem.Repositories.LoginCredentials
         {
             using (var connection = _dataAccess.GetConnection())
             {
-                string storeProcedure = "spAuthors_GetAll";
+                string storeProcedure = "spEmployee_GetAll";
 
                 return
                     connection.Query<EmployeeModel>(
@@ -32,7 +32,7 @@ namespace MolinaTextileSystem.Repositories.LoginCredentials
         {
             using (var connection = _dataAccess.GetConnection())
             {
-                string storedProcedure = "spBooks_GetAll";
+                string storedProcedure = "spLoginCredentials_GetAll";
 
                 var loginCredentials = connection.Query<LoginCredentialModel, EmployeeModel, LoginCredentialModel>
                     (storedProcedure, (loginCredential, employee) => {
@@ -52,7 +52,7 @@ namespace MolinaTextileSystem.Repositories.LoginCredentials
         {
             using (var connection = _dataAccess.GetConnection())
             {
-                string storeProcedure = "spBooks_GetById";
+                string storeProcedure = "spLoginCredentials_GetById";
 
                 return
                     connection.QueryFirstOrDefault<LoginCredentialModel>(
@@ -67,11 +67,11 @@ namespace MolinaTextileSystem.Repositories.LoginCredentials
         {
             using (var connection = _dataAccess.GetConnection())
             {
-                string storeProcedure = "spBooks_Insert";
+                string storeProcedure = "spLoginCredentials_Insert";
 
                 connection.Execute(
                     storeProcedure,
-                    new { loginCredential.EmployeeId, loginCredential.Username, loginCredential.Password },
+                    new { loginCredential.Username, loginCredential.Password, loginCredential.EmployeeId },
                     commandType: CommandType.StoredProcedure
                 );
             }
@@ -81,11 +81,11 @@ namespace MolinaTextileSystem.Repositories.LoginCredentials
         {
             using (var connection = _dataAccess.GetConnection())
             {
-                string storeProcedure = "spBooks_Update";
+                string storeProcedure = "spLoginCredentials_Update";
 
                 connection.Execute(
                     storeProcedure,
-                    new { loginCredential.LoginCredentialId, loginCredential.EmployeeId, loginCredential.Username, loginCredential.Password },
+                    new { loginCredential.LoginCredentialId, loginCredential.Username, loginCredential.Password, loginCredential.EmployeeId },
                     commandType: CommandType.StoredProcedure
                 );
             }
@@ -95,7 +95,7 @@ namespace MolinaTextileSystem.Repositories.LoginCredentials
         {
             using (var connection = _dataAccess.GetConnection())
             {
-                string storeProcedure = "spBooks_Delete";
+                string storeProcedure = "spLoginCredentials_Delete";
 
                 connection.Execute(
                     storeProcedure,
