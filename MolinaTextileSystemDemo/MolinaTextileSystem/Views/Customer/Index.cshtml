@@ -36,24 +36,34 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var customer in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.CustomerId)
+                    @Html.DisplayFor(modelItem => customer.CustomerId)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CustomerName)
+                    @Html.DisplayFor(modelItem => customer.CustomerName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CustomerAddress)
+                    @Html.DisplayFor(modelItem => customer.CustomerAddress)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CustomerPhone)
+                    @Html.DisplayFor(modelItem => customer.CustomerPhone)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    <a asp-controller="Customer"
+                       asp-action="Edit"
+                       asp-route-id="@customer.CustomerId"
+                       class="btn btn-primary">
+                        Editar
+                    </a>
+
+                    <a asp-controller="Customer"
+                       asp-action="Delete"
+                       asp-route-id="@customer.CustomerId"
+                       class="btn btn-danger">
+                        Eliminar
+                    </a>
             </td>
         </tr>
 }

@@ -1,5 +1,4 @@
-﻿using MolinaTextileSystem.Controllers;
-using MolinaTextileSystem.Models;
+﻿using MolinaTextileSystem.Models;
 
 namespace MolinaTextileSystem.Repositories.Employees
 {
