@@ -467,13 +467,62 @@ BEGIN
     DELETE FROM Customers WHERE CustomerID = @CustomerID;
 END;
 GO
-
+----SP States ----------------------------------
 CREATE OR ALTER PROCEDURE dbo.spStates_GetAll
 AS
 BEGIN
     SELECT StateId, StateName, StateDescription
     FROM States;
 END;
+GO
+CREATE OR ALTER PROCEDURE dbo.spStates_GetById
+(
+    @StateId INT
+)
+AS
+BEGIN
+    SELECT StateId, StateName, StateDescription
+    FROM States
+    WHERE StateId = @StateId;
+END;
+GO
+
+CREATE OR ALTER PROCEDURE dbo.spStates_Insert
+(
+    @StateName VARCHAR(30),
+    @StateDescription VARCHAR(255)
+)
+AS
+BEGIN
+    INSERT INTO States (StateName, StateDescription)
+    VALUES (@StateName, @StateDescription);
+END;
+GO
+
+CREATE OR ALTER PROCEDURE dbo.spStates_Update
+(
+    @StateName VARCHAR(30),
+    @StateDescription VARCHAR(255),
+    @StateId INT
+)
+AS
+BEGIN
+    UPDATE States 
+    SET StateName = @StateName,
+        StateDescription = @StateDescription
+    WHERE StateId = @StateId;
+END;
+GO
+
+CREATE OR ALTER PROCEDURE dbo.spStates_Delete
+(
+    @StateId INT
+)
+AS
+BEGIN
+    DELETE FROM States WHERE StateId = @StateId;
+END;
+
 
 
 
