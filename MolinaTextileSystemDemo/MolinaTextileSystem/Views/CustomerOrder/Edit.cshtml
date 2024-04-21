@@ -1,0 +1,87 @@
+﻿@model CustomerOrderModel
+
+@{
+    ViewData["Title"] = "Creación orden de cliente";
+}
+
+<h1 style="text-align:center">Creación orden de cliente</h1>
+<hr />
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <form asp-action="Edit" onsubmit="return confirmAction();">
+                @Html.AntiForgeryToken()
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="mb-3">
+                    <input asp-for="CustomerOrderId" type="hidden" class="form-control" />
+                </div>
+                <div class="mb-3">
+                    <label asp-for="EmployeeId" class="form-label">Empleado</label>
+                    <select asp-for="EmployeeId"
+                            asp-items="@ViewBag.Employees"
+                            class="form-select">
+                        <option value="">Seleccione</option>
+                    </select>
+                    <span asp-validation-for="EmployeeId" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="CustomerId" class="form-label">Cliente</label>
+                    <select asp-for="CustomerId"
+                            asp-items="@ViewBag.Customers"
+                            class="form-select">
+                        <option value="">Seleccione</option>
+                    </select>
+                    <span asp-validation-for="CustomerId" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="CreationDate" class="form-label">Fecha de la orden</label>
+                    <input asp-for="CreationDate" type="date" class="form-control" />
+                    <span asp-validation-for="CreationDate" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="DeliveryDate" class="form-label">Fecha de la entrega</label>
+                    <input asp-for="DeliveryDate" type="date" class="form-control" />
+                    <span asp-validation-for="DeliveryDate" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="TotalAmount" class="form-label">Total</label>
+                    <input asp-for="TotalAmount" type="number" class="form-control" />
+                    <span asp-validation-for="TotalAmount" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="StateId" class="form-label">Estado</label>
+                    <select asp-for="StateId"
+                            asp-items="@ViewBag.States"
+                            class="form-select">
+                        <option value="">Seleccione</option>
+                    </select>
+                    <span asp-validation-for="StateId" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Crear" class="btn btn-primary" />
+
+                    <a asp-action="Index" class="btn btn-danger">Regresar al listado</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        function confirmAction() {
+            if (confirm('¿Estás seguro de editar esta orden?')) {
+                return true;
+            } else {
+                window.location.href = '@Url.Action("Index", "CustomerOrder")';
+                return false;
+            }
+        }
+    </script>
+}

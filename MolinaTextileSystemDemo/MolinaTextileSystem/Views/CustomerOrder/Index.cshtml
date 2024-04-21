@@ -1,0 +1,109 @@
+﻿@model IEnumerable<CustomerOrderModel>
+@{
+	ViewData["Title"] = "Ordenes de clientes";
+}
+
+<h1 style="text-align:center">Ordenes de clientes</h1>
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+
+			<div class="mb-3 mb-3">
+				<a asp-action="Create" asp-controller="CustomerOrder" class="btn btn-success">
+					Nueva orden
+				</a>
+			</div>
+
+			@if (TempData["message"] != null)
+			{
+				<div class="alert alert-primary" role="alert">
+					@TempData["message"]
+				</div>
+			}
+
+			<table class="table table-bordered table-striped table-responsive" id="customerOrderTable">
+				<thead>
+					<tr>
+						<td>Orden ID</td>
+						<td>Empleado</td>
+						<td>Cliente</td>
+						<td>Fecha de la orden</td>
+						<td>Fecha de la entrega</td>
+						<td>Total</td>
+						<td>Estado</td>
+						<td>Acciones</td>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var customerOrderModel in Model)
+					{
+						<tr>
+							<td>@Html.DisplayFor(item => customerOrderModel.CustomerOrderId)</td>
+							<td>@customerOrderModel.Employee?.EmployeeName</td>
+							<td>@customerOrderModel.Customer?.CustomerName</td>
+							<td>@Html.DisplayFor(item => customerOrderModel.CreationDate)</td>
+							<td>@Html.DisplayFor(item => customerOrderModel.DeliveryDate)</td>
+							<td>@Html.DisplayFor(item => customerOrderModel.TotalAmount)</td>
+							<td>@customerOrderModel.State?.StateName</td>
+							<td>
+								<a asp-controller="CustomerOrder"
+								   asp-action="Edit"
+								   asp-route-id="@customerOrderModel.CustomerOrderId"
+								   class="btn btn-primary">
+									Editar
+								</a>
+								<a asp-controller="CustomerOrder"
+								   asp-action="Delete"
+								   asp-route-id="@customerOrderModel.CustomerOrderId"
+								   class="btn btn-danger">
+									Eliminar
+								</a>
+							</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+@section Scripts {
+	<script>
+		$(document).ready(function () {
+			$("#customerOrderTable").DataTable({
+				dom: 'Bfrtip',
+				buttons: [
+					{
+						extend: 'csv',
+						exportOptions: {
+							columns: ':not(:last-child)'
+						}
+					},
+					{
+						extend: 'pdf',
+						exportOptions: {
+							columns: ':not(:last-child)'
+						}
+					},
+					{
+						extend: 'excel',
+						exportOptions: {
+							columns: ':not(:last-child)'
+						}
+					}
+				],
+				columnDefs: [
+					{
+						targets: 7,
+						orderable: false,
+						searchable: false
+					}
+				],
+				language: {
+					url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json'
+				}
+			});
+		});
+	</script>
+}

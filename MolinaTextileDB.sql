@@ -73,6 +73,9 @@ CREATE TABLE States(
 	StateDescription VARCHAR(255)
 );
 GO
+INSERT INTO States (StateName, StateDescription)
+VALUES ('Active', 'This state indicates that the item is active and available for use.');
+GO
 
 CREATE TABLE Products(
 	ProductId INT NOT NULL PRIMARY KEY IDENTITY(1, 1),
@@ -89,6 +92,9 @@ CREATE TABLE Customers(
 	CustomerAddress NVARCHAR(255),
 	CustomerPhone VARCHAR(20)
 );
+GO
+INSERT INTO Customers (CustomerName, CustomerAddress, CustomerPhone)
+VALUES ('Juan Pérez', 'Calle Falsa 123', '555-1234');
 GO
 
 CREATE TABLE CustomerOrders(
@@ -182,6 +188,82 @@ BEGIN
     WHERE DetailId = @DetailId;
 END;
 GO
+
+--Sp CustomerOrders
+CREATE OR ALTER PROCEDURE spCustomerOrders_Delete
+    @CustomerOrderId INT
+AS
+BEGIN
+    DELETE FROM CustomerOrders
+    WHERE CustomerOrderId = @CustomerOrderId;
+END;
+GO
+
+CREATE OR ALTER PROCEDURE spCustomerOrders_GetAll
+AS
+BEGIN
+    SELECT co.CustomerOrderId, co.CreationDate, co.DeliveryDate, co.TotalAmount, co.CustomerId, co.EmployeeId, co.StateId,
+           c.CustomerName, e.EmployeeName, s.StateName
+    FROM CustomerOrders co
+    INNER JOIN Customers c ON co.CustomerId = c.CustomerId
+    INNER JOIN Employees e ON co.EmployeeId = e.EmployeeId
+    INNER JOIN States s ON co.StateId = s.StateId;
+END;
+GO
+
+CREATE OR ALTER PROCEDURE spCustomerOrders_GetById
+    @CustomerOrderId INT
+AS
+BEGIN
+    SELECT co.CustomerOrderId, co.CreationDate, co.DeliveryDate, co.TotalAmount, co.CustomerId, co.EmployeeId, co.StateId,
+           c.CustomerName, e.EmployeeName, s.StateName
+    FROM CustomerOrders co
+    INNER JOIN Customers c ON co.CustomerId = c.CustomerId
+    INNER JOIN Employees e ON co.EmployeeId = e.EmployeeId
+    INNER JOIN States s ON co.StateId = s.StateId
+    WHERE co.CustomerOrderId = @CustomerOrderId;
+END
+GO
+
+CREATE OR ALTER PROCEDURE spCustomerOrders_Insert
+(
+    @CreationDate DATE,
+    @DeliveryDate DATE,
+    @TotalAmount MONEY,
+    @CustomerId INT,
+    @EmployeeId INT,
+    @StateId INT
+)
+AS
+BEGIN
+    INSERT INTO CustomerOrders (CreationDate, DeliveryDate, TotalAmount, CustomerId, EmployeeId, StateId)
+    VALUES (@CreationDate, @DeliveryDate, @TotalAmount, @CustomerId, @EmployeeId, @StateId);
+END;
+GO
+
+CREATE OR ALTER PROCEDURE spCustomerOrders_Update
+(
+    @CustomerOrderId INT,
+    @CreationDate DATE,
+    @DeliveryDate DATE,
+    @TotalAmount MONEY,
+    @CustomerId INT,
+    @EmployeeId INT,
+    @StateId INT
+)
+AS
+BEGIN
+    UPDATE CustomerOrders
+    SET CreationDate = @CreationDate,
+        DeliveryDate = @DeliveryDate,
+        TotalAmount = @TotalAmount,
+        CustomerId = @CustomerId,
+        EmployeeId = @EmployeeId,
+        StateId = @StateId
+    WHERE CustomerOrderId = @CustomerOrderId;
+END;
+GO
+
 
 /*
 CREATE OR ALTER PROCEDURE spLEmployees_GetAll
@@ -324,6 +406,74 @@ BEGIN
 	WHERE SupplierId = @SupplierId;
 END;
 GO
+
+--SP Customers--
+CREATE OR ALTER PROCEDURE dbo.spCustomers_GetAll
+AS
+BEGIN
+    SELECT CustomerID, CustomerName, CustomerAddress, CustomerPhone 
+    FROM Customers;
+END;
+GO
+
+CREATE OR ALTER PROCEDURE dbo.spCustomers_GetById
+(
+    @CustomerID INT
+)
+AS
+BEGIN
+    SELECT CustomerID, CustomerName, CustomerAddress, CustomerPhone 
+    FROM Customers
+    WHERE CustomerID = @CustomerID;
+END;
+GO
+
+CREATE OR ALTER PROCEDURE dbo.spCustomers_Insert
+(
+    @CustomerName NVARCHAR(50),
+    @CustomerAddress NVARCHAR(255),
+    @CustomerPhone VARCHAR(20)
+)
+AS
+BEGIN
+    INSERT INTO Customers (CustomerName, CustomerAddress, CustomerPhone)
+    VALUES (@CustomerName, @CustomerAddress, @CustomerPhone);
+END;
+GO
+
+CREATE OR ALTER PROCEDURE dbo.spCustomers_Update
+(
+    @CustomerName NVARCHAR(50),
+    @CustomerAddress NVARCHAR(255),
+    @CustomerPhone VARCHAR(20),
+    @CustomerID INT
+)
+AS
+BEGIN
+    UPDATE Customers 
+    SET CustomerName = @CustomerName,
+        CustomerAddress = @CustomerAddress,
+        CustomerPhone = @CustomerPhone
+    WHERE CustomerID = @CustomerID;
+END;
+GO
+
+CREATE OR ALTER PROCEDURE dbo.spCustomers_Delete
+(
+    @CustomerID INT
+)
+AS
+BEGIN
+    DELETE FROM Customers WHERE CustomerID = @CustomerID;
+END;
+GO
+
+CREATE OR ALTER PROCEDURE dbo.spStates_GetAll
+AS
+BEGIN
+    SELECT StateId, StateName, StateDescription
+    FROM States;
+END;
 
 
 
