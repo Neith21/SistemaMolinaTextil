@@ -3,6 +3,7 @@ using MolinaTextileSystem.Repositories.CustomerOrders;
 using MolinaTextileSystem.Repositories.Employees;
 using MolinaTextileSystem.Repositories.Estado;
 using MolinaTextileSystem.Repositories.LoginCredentials;
+using MolinaTextileSystem.Repositories.Products;
 using MolinaTextileSystem.Repositories.Suppliers;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,6 +17,7 @@ builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<ISupplierRepository, SupplierRepository>();
 builder.Services.AddScoped<ICustomerOrderRepository, CustomerOrderRepository>();
 builder.Services.AddScoped<IStateRepository, StateRepository>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
 
 var app = builder.Build();

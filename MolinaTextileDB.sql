@@ -524,5 +524,127 @@ BEGIN
 END;
 
 
+--SP Product--
 
+CREATE OR ALTER PROCEDURE spProduct_GetById
+(
+	@ProductId INT
+)	
+AS
+BEGIN
+	 SELECT ProductId, ProductName, ProductSize, PatternId, StateId
+	 FROM Products
+	 WHERE ProductId = @ProductId;
+END
+GO
+
+CREATE OR ALTER PROCEDURE spProduct_GetAll
+AS
+BEGIN
+	 SELECT P.ProductId, P.ProductName, P.ProductSize,  Pa.PatternName, S.StateName
+	 FROM Products P INNER JOIN States S ON S.StateId = P.StateId
+	 INNER JOIN Patterns Pa ON Pa.PatternId = P.PatternId
+	 
+END;
+GO
+
+CREATE OR ALTER PROCEDURE spProduct_Insert
+(
+    @ProductName NVARCHAR(50),
+    @ProductSize VARCHAR(10),
+    @PatternId INT,
+    @StateId INT
+)
+AS
+BEGIN
+	INSERT INTO Products
+	VALUES(@ProductName, @ProductSize, @PatternId, @StateId);
+END
+GO
+
+CREATE OR ALTER PROCEDURE spProduct_Update
+(
+	@ProductId INT,
+    @ProductName NVARCHAR(50),
+    @ProductSize VARCHAR(10),
+    @PatternId INT,
+    @StateId INT
+)
+AS
+BEGIN
+    UPDATE Products
+    SET ProductName = @ProductName,
+        ProductSize = @ProductSize,
+        PatternId = @PatternId,
+		StateId = @StateId
+    WHERE ProductId = @ProductId;
+END;
+GO
+
+CREATE OR ALTER PROCEDURE spProduct_Delete
+	@ProductId INT
+AS
+BEGIN
+	DELETE FROM Products
+	WHERE ProductId = @ProductId;
+END;
+GO 
+
+--SP Patrones--
+
+CREATE OR ALTER PROCEDURE spPattern_GetById
+(
+	@PatternId INT
+)	
+AS
+BEGIN
+	 SELECT PatternId, PatternName, PatternDescription
+	 FROM Patterns
+	 WHERE PatternId = @PatternId;
+END
+GO
+
+CREATE OR ALTER PROCEDURE spPattern_GetAll
+AS
+BEGIN
+	 SELECT PatternId, PatternName, PatternDescription
+	 FROM Patterns
+END;
+GO
+
+CREATE OR ALTER PROCEDURE spPattern_Insert
+(
+    @PatternName NVARCHAR(50),
+    @PatternDescription VARCHAR(255)
+)
+AS
+BEGIN
+	INSERT INTO Patterns
+	VALUES(@PatternName, @PatternDescription);
+END
+GO
+
+CREATE OR ALTER PROCEDURE spPattern_Update
+(
+	@PatternId INT,
+    @PatternName NVARCHAR(50),
+    @PatternDescription VARCHAR(255)
+)
+AS
+BEGIN
+    UPDATE Patterns
+    SET PatternName = @PatternName,
+        PatternDescription = @PatternDescription
+    WHERE PatternId = @PatternId;
+END;
+GO
+
+CREATE OR ALTER PROCEDURE spPattern_Delete
+	@PatternId INT
+AS
+BEGIN
+	DELETE FROM Patterns
+	WHERE PatternId = @PatternId;
+END;
+GO 
 
