@@ -1,0 +1,51 @@
+﻿@model MolinaTextileSystem.Models.CustomerOrderDetailModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>CustomerOrderDetailModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <input asp-for="CustomerOrderDetailId" hidden class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="UnitPrice" class="control-label"></label>
+                <input asp-for="UnitPrice" class="form-control" />
+                <span asp-validation-for="UnitPrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CustomerOrderDetailQuantity" class="control-label"></label>
+                <input asp-for="CustomerOrderDetailQuantity" class="form-control" />
+                <span asp-validation-for="CustomerOrderDetailQuantity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CustomerOrderId" class="control-label"></label>
+                <input asp-for="CustomerOrderId" class="form-control" />
+                <span asp-validation-for="CustomerOrderId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProductId" class="control-label"></label>
+                <input asp-for="ProductId" class="form-control" />
+                <span asp-validation-for="ProductId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Guardar" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

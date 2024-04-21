@@ -522,7 +522,7 @@ AS
 BEGIN
     DELETE FROM States WHERE StateId = @StateId;
 END;
-
+GO
 
 --SP Product--
 
@@ -648,3 +648,75 @@ BEGIN
 END;
 GO 
 
+----------------------------------------------------------------------------
+
+CREATE OR ALTER PROCEDURE spCustomersOrdersDetails_GetAll
+AS
+BEGIN
+	SELECT CustomerOrderDetails.CustomerOrderDetailId, CustomerOrderDetails.UnitPrice, CustomerOrderDetails.CustomerOrderDetailQuantity, CustomerOrderDetails.CustomerOrderId, Products.ProductName
+	FROM CustomerOrderDetails
+	INNER JOIN Products ON CustomerOrderDetails.ProductId = Products.ProductId;
+END;
+GO
+
+CREATE OR ALTER PROCEDURE spCustomersOrdersDetails_GetById
+(
+	@CustomerOrderDetailId INT
+)	
+AS
+BEGIN
+	 SELECT CustomerOrderDetailId, UnitPrice, CustomerOrderDetailQuantity, CustomerOrderId, ProductId 
+	 FROM CustomerOrderDetails
+	 WHERE CustomerOrderDetailId = @CustomerOrderDetailId
+END
+GO
+
+CREATE OR ALTER PROCEDURE spCustomersOrdersDetails_Insert
+(
+	@UnitPrice MONEY,
+	@CustomerOrderDetailQuantity INT,
+	@CustomerOrderId INT,
+	@ProductId INT
+)
+AS
+BEGIN
+	INSERT INTO CustomerOrderDetails
+	VALUES(@UnitPrice, @CustomerOrderDetailQuantity, @CustomerOrderId, @ProductId);
+END
+GO
+
+CREATE OR ALTER PROCEDURE spCustomersOrdersDetails_Update
+(
+    @CustomerOrderDetailId INT,
+	@UnitPrice MONEY,
+	@CustomerOrderDetailQuantity INT,
+	@CustomerOrderId INT,
+	@ProductId INT
+)
+AS
+BEGIN
+    UPDATE CustomerOrderDetails
+    SET UnitPrice = @UnitPrice,
+        CustomerOrderDetailQuantity = @CustomerOrderDetailQuantity,
+        CustomerOrderId = @CustomerOrderId,
+		ProductId = @ProductId
+    WHERE CustomerOrderDetailId = @CustomerOrderDetailId;
+END;
+GO
+
+CREATE OR ALTER PROCEDURE spCustomersOrdersDetails_Delete
+	@CustomerOrderDetailId INT
+AS
+BEGIN
+	DELETE FROM CustomerOrderDetails
+	WHERE CustomerOrderDetailId = @CustomerOrderDetailId;
+END;
+GO
+
+
+INSERT INTO Patterns VALUES ('M', 'Patron para talla M')
+INSERT INTO CustomerOrders VALUES (GETDATE(), GETDATE(), 24.00, 1, 1, 1)
+INSERT INTO Products VALUES ('Manteles', 'talla M', 1, 1)
+SELECT * from CustomerOrderDetails
+
+INSERT INTO CustomerOrderDetails VALUES (25.00,12,6,2)
