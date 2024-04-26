@@ -733,14 +733,6 @@ BEGIN
 END;
 GO
 
-
-/*INSERT INTO Patterns VALUES ('M', 'Patron para talla M')
-INSERT INTO CustomerOrders VALUES (GETDATE(), GETDATE(), 24.00, 1, 1, 1)
-INSERT INTO Products VALUES ('Manteles', 'talla M', 1, 1)
-SELECT * from CustomerOrderDetails
-
-INSERT INTO CustomerOrderDetails VALUES (25.00,12,6,2)*/
-
 --SP PatternDetails--
 CREATE OR ALTER PROCEDURE spPatternDetails_Delete
     @PatternDetailId INT

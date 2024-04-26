@@ -1,0 +1,56 @@
+﻿@model IEnumerable<MolinaTextileSystem.Models.PatternModel>
+
+@{
+    ViewData["Title"] = "Lista de Patrones";
+}
+
+<h1>Lista de Patrones</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">Agregar Patrón</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PatternId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PatternName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PatternDescription)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PatternId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PatternName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PatternDescription)
+            </td>
+            <td>
+                    <a asp-controller="Pattern"
+                       asp-action="Edit"
+                       asp-route-id="@item.PatternId"
+                       class="btn btn-primary">
+                        Editar
+                    </a>
+                    <a asp-controller="Pattern"
+                       asp-action="Delete"
+                       asp-route-id="@item.PatternId"
+                       class="btn btn-danger">
+                        Eliminar
+                    </a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

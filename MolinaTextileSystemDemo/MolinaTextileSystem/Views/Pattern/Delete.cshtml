@@ -1,0 +1,39 @@
+﻿@model MolinaTextileSystem.Models.PatternModel
+
+@{
+    ViewData["Title"] = "Eliminar Patrón";
+}
+
+<h1>Eliminar patrón</h1>
+
+<h3>¿Estás seguro de eliminar este registro?</h3>
+<div>
+    <h4>PatternModel</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PatternId)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PatternId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PatternName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PatternName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PatternDescription)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PatternDescription)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input asp-for="PatternId" hidden class="form-control" />
+        <input type="submit" value="Eliminar" class="btn btn-danger" /> |
+        <a asp-action="Index" class="btn btn-warning">Regresar</a>
+    </form>
+</div>
