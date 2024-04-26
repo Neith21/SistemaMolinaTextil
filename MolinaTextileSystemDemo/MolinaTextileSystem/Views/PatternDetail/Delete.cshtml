@@ -1,0 +1,55 @@
+﻿@model PatternDetailModel
+
+@{
+    ViewData["Title"] = "Eliminar detalle";
+}
+
+<div style="text-align: center;">
+    <h1>Eliminar orden</h1>
+    <h3>¿Está seguro que desea eliminar?</h3>
+
+    <div style="margin: 0 auto; width: fit-content;">
+        <table style="text-align: justify; border-collapse: separate; border-spacing: 0 8px;">
+            <tbody>
+                <tr>
+                    <th style="padding-bottom: 8px;">
+                        @Html.DisplayNameFor(model => model.RawMaterialId)
+                    </th>
+                    <td style="padding: 0px 0px 8px 10px;">
+                        @Html.DisplayFor(model => model.RawMaterialId)
+                    </td>
+                </tr>
+                <tr>
+                    <th style="padding-bottom: 8px;">
+                        @Html.DisplayNameFor(model => model.RawMaterialId)
+                    </th>
+                    <td style="padding: 0px 0px 8px 10px;">
+                        @Html.DisplayFor(model => model.RawMaterialId)
+                    </td>
+                </tr>
+                <tr>
+                    <th style="padding-bottom: 8px;">
+                        @Html.DisplayNameFor(model => model.RawMaterialQuantity)
+                    </th>
+                    <td style="padding: 0px 0px 8px 10px;">
+                        @Html.DisplayFor(model => model.RawMaterialQuantity)
+                    </td>
+                </tr>
+                <tr>
+                    <th style="padding-bottom: 8px;">
+                        @Html.DisplayNameFor(model => model.PatternId)
+                    </th>
+                    <td style="padding: 0px 0px 8px 10px;">
+                        @Html.DisplayFor(model => model.PatternId)
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <form asp-action="Delete">
+            <input asp-for="PatternDetailId" type="hidden" class="form-control" />
+            <input type="submit" value="Eliminar" class="btn btn-danger" />
+            <a asp-action="Index" class="btn btn-primary">Regresar al listado</a>
+        </form>
+    </div>
+</div>

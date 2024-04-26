@@ -1,0 +1,68 @@
+﻿@model PatternDetailModel
+
+@{
+    ViewData["Title"] = "Edición de detalle";
+}
+
+<h1 style="text-align:center">Edición de detalle</h1>
+<hr />
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <form asp-action="Edit" onsubmit="return confirmAction();">
+                @Html.AntiForgeryToken()
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="mb-3">
+                    <input asp-for="PatternDetailId" type="hidden" class="form-control" />
+                </div>
+                <div class="mb-3">
+                    <label asp-for="RawMaterialId" class="form-label">Materia prima</label>
+                    <select asp-for="RawMaterialId"
+                            asp-items="@ViewBag.RawMaterials"
+                            class="form-select">
+                        <option value="">Seleccione</option>
+                    </select>
+                    <span asp-validation-for="RawMaterialId" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="RawMaterialQuantity" class="form-label">Cantidad de material</label>
+                    <input asp-for="RawMaterialQuantity" type="number" class="form-control" />
+                    <span asp-validation-for="RawMaterialQuantity" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="PatternId" class="form-label">Patrón</label>
+                    <select asp-for="PatternId"
+                            asp-items="@ViewBag.Patterns"
+                            class="form-select">
+                        <option value="">Seleccione</option>
+                    </select>
+                    <span asp-validation-for="PatternId" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Editar" class="btn btn-primary" />
+
+                    <a asp-action="Index" class="btn btn-danger">Regresar al listado</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        function confirmAction() {
+            if (confirm('¿Estás seguro de editar este detalle?')) {
+                return true;
+            } else {
+                window.location.href = '@Url.Action("Index", "PatternDetail")';
+                return false;
+            }
+        }
+    </script>
+}

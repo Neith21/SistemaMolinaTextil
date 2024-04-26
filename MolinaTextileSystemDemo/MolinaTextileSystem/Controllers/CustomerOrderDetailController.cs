@@ -9,6 +9,7 @@ namespace MolinaTextileSystem.Controllers
     public class CustomerOrderDetailController : Controller
     {
         public readonly ICustomersOrdersDetailsRepository _customersOrdersDetailsRepository;
+
         private SelectList _productList;
 
         public CustomerOrderDetailController(ICustomersOrdersDetailsRepository customersOrdersDetailsRepository)

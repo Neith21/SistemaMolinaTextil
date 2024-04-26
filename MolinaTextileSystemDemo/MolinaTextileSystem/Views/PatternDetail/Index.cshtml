@@ -1,0 +1,102 @@
+﻿@model IEnumerable<PatternDetailModel>
+@{
+    ViewData["Title"] = "Detalles de patrones";
+}
+
+<h1 style="text-align:center">Detalles de patrones</h1>
+
+<div class="container">
+    <div class="row d-flex">
+        <div class="col-6">
+            <div class="mb-3">
+                <a asp-action="Create" asp-controller="PatternDetail" class="btn btn-success">
+                    Nuevo detalle de patrón
+                </a>
+            </div>
+        </div>
+    </div>
+
+    @if (TempData["message"] != null)
+    {
+        <div class="alert alert-primary" role="alert">
+            @TempData["message"]
+        </div>
+    }
+
+    <table class="table table-bordered table-striped table-responsive" id="patternDetail">
+        <thead>
+            <tr>
+                <td>Detalle de patrón ID</td>
+                <td>Materia prima</td>
+                <td>Cantidad de materia prima</td>
+                <td>Patrón</td>
+                <td>Acciones</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var patternDetail in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(item => patternDetail.PatternDetailId)</td>
+                    <td>@patternDetail.RawMaterial?.RawMaterialName</td>
+                    <td>@Html.DisplayFor(item => patternDetail.RawMaterialQuantity)</td>
+                    <td>@patternDetail.Pattern?.PatternName</td>
+                    <td>
+                        <a asp-controller="PatternDetail"
+                           asp-action="Edit"
+                           asp-route-id="@patternDetail.PatternDetailId"
+                           class="btn btn-primary">
+                            Editar
+                        </a>
+                        <a asp-controller="PatternDetail"
+                           asp-action="Delete"
+                           asp-route-id="@patternDetail.PatternDetailId"
+                           class="btn btn-danger">
+                            Eliminar
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $("#patternDetail").DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        extend: 'csv',
+                        exportOptions: {
+                            columns: ':not(:last-child)'
+                        }
+                    },
+                    {
+                        extend: 'pdf',
+                        exportOptions: {
+                            columns: ':not(:last-child)'
+                        }
+                    },
+                    {
+                        extend: 'excel',
+                        exportOptions: {
+                            columns: ':not(:last-child)'
+                        }
+                    }
+                ],
+                columnDefs: [
+                    {
+                        targets: 4,
+                        orderable: false,
+                        searchable: false
+                    }
+                ],
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json'
+                }
+            });
+        });
+    </script>
+}

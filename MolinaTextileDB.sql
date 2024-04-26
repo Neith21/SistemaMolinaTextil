@@ -33,12 +33,22 @@ CREATE TABLE Suppliers(
 	SupplierEmail NVARCHAR(100)
 );
 GO
+INSERT INTO Suppliers (SupplierName, Manager, SupplierPhone, SupplierEmail)
+VALUES 
+    ('Proveedor1', 'Gerente1', '123456789', 'proveedor1@example.com'),
+    ('Proveedor2', 'Gerente2', '987654321', 'proveedor2@example.com');
+GO
 
 CREATE TABLE Categories(
 	CategoryId INT PRIMARY KEY IDENTITY(1, 1) NOT NULL,
 	CategoryName VARCHAR(50) NOT NULL,
 	CategoryDescription VARCHAR(255)
 );
+GO
+INSERT INTO Categories (CategoryName, CategoryDescription)
+VALUES 
+    ('Categoría1', 'Descripción de la categoría 1'),
+    ('Categoría2', 'Descripción de la categoría 2');
 GO
 
 CREATE TABLE RawMaterials(
@@ -51,6 +61,11 @@ CREATE TABLE RawMaterials(
 	SupplierId INT NOT NULL FOREIGN KEY REFERENCES Suppliers(SupplierId),
 );
 GO
+INSERT INTO RawMaterials (RawMaterialName, RawMaterialDescription, RawMaterialPurchasePrice, RawMaterialQuantity, CategoryId, SupplierId)
+VALUES 
+    ('Material1', 'Descripción del Material 1', 10.99, 100, 1, 1),
+    ('Material2', 'Descripción del Material 2', 15.99, 150, 2, 2);
+GO
 
 CREATE TABLE Patterns(
 	PatternId INT NOT NULL PRIMARY KEY IDENTITY(1, 1),
@@ -58,11 +73,16 @@ CREATE TABLE Patterns(
 	PatternDescription VARCHAR(255)
 );
 GO
+INSERT INTO Patterns (PatternName, PatternDescription)
+VALUES 
+    ('Pattern1', 'Descripción del Pattern 1'),
+    ('Pattern2', 'Descripción del Pattern 2');
+GO
 
 CREATE TABLE PatternDetails(
 	PatternDetailId INT NOT NULL PRIMARY KEY IDENTITY(1, 1),
 	RawMaterialQuantity DECIMAL NOT NULL,
-	MaterialId INT NOT NULL FOREIGN KEY REFERENCES RawMaterials(RawMaterialId),
+	RawMaterialId INT NOT NULL FOREIGN KEY REFERENCES RawMaterials(RawMaterialId),
 	PatternId INT FOREIGN KEY REFERENCES Patterns(PatternId)
 );
 GO
@@ -714,9 +734,88 @@ END;
 GO
 
 
-INSERT INTO Patterns VALUES ('M', 'Patron para talla M')
+/*INSERT INTO Patterns VALUES ('M', 'Patron para talla M')
 INSERT INTO CustomerOrders VALUES (GETDATE(), GETDATE(), 24.00, 1, 1, 1)
 INSERT INTO Products VALUES ('Manteles', 'talla M', 1, 1)
 SELECT * from CustomerOrderDetails
 
-INSERT INTO CustomerOrderDetails VALUES (25.00,12,6,2)
+INSERT INTO CustomerOrderDetails VALUES (25.00,12,6,2)*/
+
+--SP PatternDetails--
+CREATE OR ALTER PROCEDURE spPatternDetails_Delete
+    @PatternDetailId INT
+AS
+BEGIN
+    DELETE FROM PatternDetails
+    WHERE PatternDetailId = @PatternDetailId;
+END;
+GO
+
+CREATE OR ALTER PROCEDURE spPatternDetails_GetAll
+AS
+BEGIN
+    SELECT pd.PatternDetailId, pd.RawMaterialQuantity, pd.RawMaterialId, pd.PatternId, rm.RawMaterialName, p.PatternName
+    FROM PatternDetails pd
+    INNER JOIN RawMaterials rm ON pd.RawMaterialId = rm.RawMaterialId
+    INNER JOIN Patterns p ON pd.PatternId = p.PatternId;
+END;
+GO
+
+CREATE OR ALTER PROCEDURE spPatternDetails_GetById
+    @PatternDetailId INT
+AS
+BEGIN
+    SELECT pd.PatternDetailId, pd.RawMaterialQuantity, pd.RawMaterialId, pd.PatternId, rm.RawMaterialName, p.PatternName
+    FROM PatternDetails pd
+    INNER JOIN RawMaterials rm ON pd.RawMaterialId = rm.RawMaterialId
+    INNER JOIN Patterns p ON pd.PatternId = p.PatternId
+	WHERE pd.PatternDetailId = @PatternDetailId;
+END
+GO
+
+CREATE OR ALTER PROCEDURE spPatternDetails_Insert
+(
+    @RawMaterialQuantity DECIMAL,
+    @RawMaterialId INT,
+    @PatternId INT
+)
+AS
+BEGIN
+    INSERT INTO PatternDetails (RawMaterialQuantity, RawMaterialId, PatternId)
+    VALUES (@RawMaterialQuantity, @RawMaterialId, @PatternId);
+END;
+GO
+
+CREATE OR ALTER PROCEDURE spPatternDetails_Update
+(
+    @PatternDetailId INT,
+    @RawMaterialQuantity DECIMAL,
+    @RawMaterialId INT,
+    @PatternId INT
+)
+AS
+BEGIN
+    UPDATE PatternDetails
+    SET RawMaterialQuantity = @RawMaterialQuantity,
+        RawMaterialId = @RawMaterialId,
+        PatternId = @PatternId
+    WHERE PatternDetailId = @PatternDetailId;
+END;
+GO
+--SP Necesarios--
+CREATE OR ALTER PROCEDURE spPRawMaterials_GetAll
+AS
+BEGIN
+    SELECT RawMaterialId, RawMaterialName, RawMaterialDescription, RawMaterialPurchasePrice, RawMaterialQuantity, CategoryId, SupplierId
+    FROM RawMaterials;
+END;
+GO
+CREATE OR ALTER PROCEDURE spPPatterns_GetAll
+AS
+BEGIN
+    SELECT PatternId, PatternName, PatternDescription
+    FROM Patterns;
+END;
+GO
+--Fin, los sp de RawMaterials y Pattern no afectarán a los otros.
+
