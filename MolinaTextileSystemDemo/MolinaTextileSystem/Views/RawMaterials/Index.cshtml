@@ -1,0 +1,80 @@
+﻿@model IEnumerable<MolinaTextileSystem.Models.RawMaterialsModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.RawMaterialId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RawMaterialName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RawMaterialDescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RawMaterialPurchasePrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RawMaterialQuantity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CategoryId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Supplier.SupplierId)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.RawMaterialId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RawMaterialName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RawMaterialDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RawMaterialPurchasePrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RawMaterialQuantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category.CategoryName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Supplier.SupplierName)
+            </td>
+            <td>
+                    <a asp-controller="RawMaterials"
+                       asp-action="Edit"
+                       asp-route-id="@item.RawMaterialId"
+                       class="btn btn-primary">
+                        Editar
+                    </a>
+                    <a asp-controller="RawMaterials"
+                       asp-action="Delete"
+                       asp-route-id="@item.RawMaterialId"
+                       class="btn btn-danger">
+                        Eliminar
+                    </a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -20,8 +20,8 @@ namespace MolinaTextileSystem.Controllers
 
 			_rawMaterialList = new SelectList(
 				_patternDetailRepository.GetAllRawMaterials(),
-				nameof(RawMaterialModel.RawMaterialId),
-				nameof(RawMaterialModel.RawMaterialName)
+				nameof(RawMaterialsModel.RawMaterialId),
+				nameof(RawMaterialsModel.RawMaterialName)
 			);
 			_patternList = new SelectList(
 				_patternDetailRepository.GetAllPatterns(),
@@ -88,8 +88,8 @@ namespace MolinaTextileSystem.Controllers
 
 			_rawMaterialList = new SelectList(
 				_patternDetailRepository.GetAllRawMaterials(),
-				nameof(RawMaterialModel.RawMaterialId),
-				nameof(RawMaterialModel.RawMaterialName),
+				nameof(RawMaterialsModel.RawMaterialId),
+				nameof(RawMaterialsModel.RawMaterialName),
 				patternDetail?.RawMaterial?.RawMaterialId
 			);
 			_patternList = new SelectList(

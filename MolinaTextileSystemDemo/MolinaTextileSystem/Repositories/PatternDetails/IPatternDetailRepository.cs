@@ -9,7 +9,7 @@ namespace MolinaTextileSystem.Repositories.PatternDetails
 		void Edit(PatternDetailModel patternDetail);
 		IEnumerable<PatternDetailModel> GetAll();
 		IEnumerable<PatternModel> GetAllPatterns();
-		IEnumerable<RawMaterialModel> GetAllRawMaterials();
+		IEnumerable<RawMaterialsModel> GetAllRawMaterials();
 		PatternDetailModel? GetById(int id);
 	}
 }

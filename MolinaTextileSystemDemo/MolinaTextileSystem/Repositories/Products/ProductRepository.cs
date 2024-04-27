@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Mvc;
-using System.Drawing;
-using MolinaTextileSystem.Data;
+﻿using MolinaTextileSystem.Data;
 using MolinaTextileSystem.Models;
 using System.Data;
 using Dapper;

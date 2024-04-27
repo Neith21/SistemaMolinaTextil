@@ -3,7 +3,7 @@ using System.ComponentModel;
 
 namespace MolinaTextileSystem.Models
 {
-	public class RawMaterialModel
+	public class RawMaterialsModel
 	{
 		[Key]
 		public int RawMaterialId { get; set; }

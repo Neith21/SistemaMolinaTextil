@@ -833,6 +833,7 @@ BEGIN
 END
 GO
 
+
 CREATE OR ALTER PROCEDURE spCategory_Insert
 (
 	@CategoryName VARCHAR(50),
@@ -866,5 +867,78 @@ AS
 BEGIN
 	DELETE FROM Categories
 	WHERE CategoryId = @CategoryId;
+END;
+GO
+
+-------- SP Raw Materials -------------------------
+CREATE OR ALTER PROCEDURE spRawMaterial_GetById
+(
+    @RawMaterialId INT
+)
+AS
+BEGIN
+    SELECT RawMaterialId, RawMaterialName, RawMaterialDescription, RawMaterialPurchasePrice, RawMaterialQuantity, CategoryId, SupplierId
+    FROM RawMaterials
+    WHERE RawMaterialId = @RawMaterialId;
+END;
+GO
+
+CREATE OR ALTER PROCEDURE spRawMaterial_GetAll
+AS
+BEGIN
+    SELECT RawMaterialId, RawMaterialName, RawMaterialDescription, RawMaterialPurchasePrice, RawMaterialQuantity, CategoryName, SupplierName
+    FROM RawMaterials
+	inner join Categories on Categories.CategoryId = RawMaterials.CategoryId
+	inner join Suppliers on Suppliers.SupplierId = RawMaterials.SupplierId
+END;
+GO
+
+CREATE OR ALTER PROCEDURE spRawMaterial_Insert
+(
+    @RawMaterialName VARCHAR(50),
+    @RawMaterialDescription VARCHAR(255),
+    @RawMaterialPurchasePrice MONEY,
+    @RawMaterialQuantity DECIMAL,
+    @CategoryId INT,
+    @SupplierId INT
+)
+AS
+BEGIN
+    INSERT INTO RawMaterials (RawMaterialName, RawMaterialDescription, RawMaterialPurchasePrice, RawMaterialQuantity, CategoryId, SupplierId)
+    VALUES (@RawMaterialName, @RawMaterialDescription, @RawMaterialPurchasePrice, @RawMaterialQuantity, @CategoryId, @SupplierId);
+END;
+GO
+
+CREATE OR ALTER PROCEDURE spRawMaterial_Update
+(
+    @RawMaterialId INT,
+    @RawMaterialName VARCHAR(50),
+    @RawMaterialDescription VARCHAR(255),
+    @RawMaterialPurchasePrice MONEY,
+    @RawMaterialQuantity DECIMAL,
+    @CategoryId INT,
+    @SupplierId INT
+)
+AS
+BEGIN
+    UPDATE RawMaterials
+    SET RawMaterialName = @RawMaterialName,
+        RawMaterialDescription = @RawMaterialDescription,
+        RawMaterialPurchasePrice = @RawMaterialPurchasePrice,
+        RawMaterialQuantity = @RawMaterialQuantity,
+        CategoryId = @CategoryId,
+        SupplierId = @SupplierId
+    WHERE RawMaterialId = @RawMaterialId;
+END;
+GO
+
+CREATE OR ALTER PROCEDURE spRawMaterial_Delete
+(
+    @RawMaterialId INT
+)
+AS
+BEGIN
+    DELETE FROM RawMaterials
+    WHERE RawMaterialId = @RawMaterialId;
 END;
 GO

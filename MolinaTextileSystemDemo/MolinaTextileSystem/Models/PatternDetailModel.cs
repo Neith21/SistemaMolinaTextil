@@ -20,7 +20,7 @@ namespace MolinaTextileSystem.Models
 		[DisplayName("ID del patrón")]
 		public int? PatternId { get; set; }
 
-		public RawMaterialModel RawMaterial { get; set; }
+		public RawMaterialsModel RawMaterial { get; set; }
 
 		public PatternModel Pattern { get; set; }
 	}

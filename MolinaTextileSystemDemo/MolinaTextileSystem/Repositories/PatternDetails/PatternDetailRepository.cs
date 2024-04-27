@@ -14,14 +14,14 @@ namespace MolinaTextileSystem.Repositories.PatternDetails
 			_dataAccess = dataAccess;
 		}
 
-		public IEnumerable<RawMaterialModel> GetAllRawMaterials()
+		public IEnumerable<RawMaterialsModel> GetAllRawMaterials()
 		{
 			using (var connection = _dataAccess.GetConnection())
 			{
 				string storeProcedure = "spPRawMaterials_GetAll";
 
 				return
-					connection.Query<RawMaterialModel>(
+					connection.Query<RawMaterialsModel>(
 						storeProcedure,
 						commandType: CommandType.StoredProcedure
 					);
@@ -48,7 +48,7 @@ namespace MolinaTextileSystem.Repositories.PatternDetails
 			{
 				string storedProcedure = "spPatternDetails_GetAll";
 
-				var patternDetails = connection.Query<PatternDetailModel, RawMaterialModel, PatternModel, PatternDetailModel >
+				var patternDetails = connection.Query<PatternDetailModel, RawMaterialsModel, PatternModel, PatternDetailModel >
 					(storedProcedure, (patternDetail, rawMaterial, pattern) => {
 						patternDetail.RawMaterial = rawMaterial;
 						patternDetail.Pattern = pattern;
