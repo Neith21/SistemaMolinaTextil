@@ -811,3 +811,60 @@ END;
 GO
 --Fin, los sp de RawMaterials y Pattern no afectarán a los otros.
 
+------------------------------------- STORES PROCEDURES CATEGORY ----------------------------------------------------------
+
+CREATE OR ALTER PROCEDURE spCategory_GetAll
+AS
+BEGIN
+	 SELECT CategoryId, CategoryName, CategoryDescription
+	 FROM Categories
+END;
+GO
+
+CREATE OR ALTER PROCEDURE spCategory_GetById
+(
+	@CategoryId INT
+)	
+AS
+BEGIN
+	 SELECT CategoryId, CategoryName, CategoryDescription
+	 FROM Categories
+	 WHERE CategoryId = @CategoryId;
+END
+GO
+
+CREATE OR ALTER PROCEDURE spCategory_Insert
+(
+	@CategoryName VARCHAR(50),
+	@CategoryDescription VARCHAR(255)
+)
+AS
+BEGIN
+	INSERT INTO Categories
+	VALUES(@CategoryName, @CategoryDescription);
+END
+GO
+
+CREATE OR ALTER PROCEDURE spCategory_Update
+(
+	@CategoryId INT,
+	@CategoryName VARCHAR(50),
+	@CategoryDescription VARCHAR(255)
+)
+AS
+BEGIN
+    UPDATE Categories
+    SET CategoryName = @CategoryName,
+        CategoryDescription = @CategoryDescription
+    WHERE CategoryId = @CategoryId;
+END;
+GO
+
+CREATE OR ALTER PROCEDURE spCategory_Delete
+	@CategoryId INT
+AS
+BEGIN
+	DELETE FROM Categories
+	WHERE CategoryId = @CategoryId;
+END;
+GO

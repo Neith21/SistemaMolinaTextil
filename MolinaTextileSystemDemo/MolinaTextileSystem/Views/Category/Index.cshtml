@@ -1,0 +1,102 @@
+﻿@model IEnumerable<MolinaTextileSystem.Models.CategoryModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Crear Nueva Categoria</a>
+</p>
+
+@if (TempData["message"] != null)
+{
+	<div class="alert alert-primary" role="alert">
+		@TempData["message"]
+	</div>
+}
+
+<table class="table table-bordered table-striped table-responsive" id="categoryTable">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CategoryId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CategoryName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CategoryDescription)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CategoryId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CategoryName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CategoryDescription)
+            </td>
+			<td>
+				<a asp-controller="Category"
+					  asp-action="Edit"
+					  asp-route-id="@item.CategoryId"
+					  class="btn btn-primary">
+						Editar</a>
+				<a asp-controller="Category"
+					  asp-action="Delete"
+					   asp-route-id="@item.CategoryId"
+					  class="btn btn-danger">
+						Eliminar</a>
+			</td>
+        </tr>
+}
+    </tbody>
+</table>
+
+@section Scripts {
+	<script>
+		$(document).ready(function () {
+			$("#categoryTable").DataTable({
+				dom: 'Bfrtip',
+				buttons: [
+					{
+						extend: 'csv',
+						exportOptions: {
+							columns: ':not(:last-child)'
+						}
+					},
+					{
+						extend: 'pdf',
+						exportOptions: {
+							columns: ':not(:last-child)'
+						}
+					},
+					{
+						extend: 'excel',
+						exportOptions: {
+							columns: ':not(:last-child)'
+						}
+					}
+				],
+				columnDefs: [
+					{
+						targets: 3,
+						orderable: false,
+						searchable: false
+					}
+				],
+				language: {
+					url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json'
+				}
+			});
+		});
+	</script>
+}

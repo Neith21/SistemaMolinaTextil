@@ -1,0 +1,38 @@
+﻿@model MolinaTextileSystem.Models.CategoryModel
+
+@{
+    ViewData["Title"] = "Eliminar Categoria";
+}
+
+<h1>Eliminar Categoria</h1>
+
+<h3>¿Esta seguro que desea eliminar esta categoria?</h3>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CategoryId)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CategoryId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CategoryName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CategoryName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CategoryDescription)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CategoryDescription)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input asp-for="CategoryId" hidden class="form-control" />
+        <input type="submit" value="Eliminar" class="btn btn-danger" /> |
+        <a asp-action="Index">Regresar</a>
+    </form>
+</div>

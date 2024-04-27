@@ -8,6 +8,7 @@ using MolinaTextileSystem.Repositories.PatternDetails;
 using MolinaTextileSystem.Repositories.Products;
 using MolinaTextileSystem.Repositories.Suppliers;
 using MolinaTextileSystem.Repositories.Pattern;
+using MolinaTextileSystem.Repositories.Category;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +25,7 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ICustomersOrdersDetailsRepository, CustomersOrdersDetailsRepository>();
 builder.Services.AddScoped<IPatternDetailRepository, PatternDetailRepository>();
 builder.Services.AddScoped<IPatternRepository, PatternRepository>();
+builder.Services.AddScoped<ICategoryRepository, Categoryrepository>();
 
 
 var app = builder.Build();
