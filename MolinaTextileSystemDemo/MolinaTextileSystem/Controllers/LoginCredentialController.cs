@@ -10,12 +10,18 @@ namespace MolinaTextileSystem.Controllers
     {
         private readonly ILoginCredentialRepository _loginCredentialRepository;
 
+        private SelectList _rolesList;
         private SelectList _employeesList;
 
         public LoginCredentialController(ILoginCredentialRepository loginCredentialRepository)
         {
             _loginCredentialRepository = loginCredentialRepository;
-            _employeesList = new SelectList(
+			_rolesList = new SelectList(
+				_loginCredentialRepository.GetAllRoles(),
+				nameof(RolModel.rolId),
+				nameof(RolModel.rolName)
+			);
+			_employeesList = new SelectList(
                 _loginCredentialRepository.GetAllEmployees(),
                 nameof(EmployeeModel.EmployeeId),
                 nameof(EmployeeModel.EmployeeName)
@@ -62,6 +68,8 @@ namespace MolinaTextileSystem.Controllers
         // GET: LoginCredentialController/Create
         public ActionResult Create()
         {
+
+            ViewBag.Roles = _rolesList;
             ViewBag.Employees = _employeesList;
 
             return View();
@@ -84,7 +92,8 @@ namespace MolinaTextileSystem.Controllers
             {
                 TempData["message"] = ex.Message;
 
-                ViewBag.Employees = _employeesList;
+				ViewBag.Roles = _rolesList;
+				ViewBag.Employees = _employeesList;
 
                 return View(loginCredential);
             }
@@ -101,14 +110,21 @@ namespace MolinaTextileSystem.Controllers
                 return NotFound();
             }
 
-            _employeesList = new SelectList(
+			_rolesList = new SelectList(
+				_loginCredentialRepository.GetAllRoles(),
+				nameof(RolModel.rolId),
+				nameof(RolModel.rolName),
+                loginCredential?.Rol?.rolId
+			);
+			_employeesList = new SelectList(
                 _loginCredentialRepository.GetAllEmployees(),
                 nameof(EmployeeModel.EmployeeId),
                 nameof(EmployeeModel.EmployeeName),
                 loginCredential?.Employee?.EmployeeId
             );
 
-            ViewBag.Employees = _employeesList;
+			ViewBag.Roles = _rolesList;
+			ViewBag.Employees = _employeesList;
 
             return View(loginCredential);
         }
@@ -130,7 +146,8 @@ namespace MolinaTextileSystem.Controllers
             {
                 TempData["message"] = ex.Message;
 
-                ViewBag.Employees = _employeesList;
+				ViewBag.Roles = _rolesList;
+				ViewBag.Employees = _employeesList;
 
                 return View(loginCredential);
             }

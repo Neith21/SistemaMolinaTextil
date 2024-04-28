@@ -16,7 +16,11 @@
 
                 <div class="mb-3">
                     <label asp-for="EmployeeId" class="form-label">Empleado</label>
-                    <input asp-for="EmployeeId" type="text" class="form-control" />
+                    <select asp-for="EmployeeId"
+                            asp-items="@ViewBag.Employees"
+                            class="form-select">
+                        <option value="">Seleccione</option>
+                    </select>
                     <span asp-validation-for="EmployeeId" class="text-danger"></span>
                 </div>
                 <div class="mb-3">
@@ -28,6 +32,15 @@
                     <label asp-for="Password" class="form-label">Contraseña</label>
                     <input asp-for="Password" type="text" class="form-control" />
                     <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="RolId" class="form-label">Rol</label>
+                    <select asp-for="RolId"
+                            asp-items="@ViewBag.Roles"
+                            class="form-select">
+                        <option value="">Seleccione</option>
+                    </select>
+                    <span asp-validation-for="RolId" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">

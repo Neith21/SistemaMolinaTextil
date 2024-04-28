@@ -32,7 +32,7 @@ namespace MolinaTextileSystem.Repositories.LoginCredentials
         {
             using (var connection = _dataAccess.GetConnection())
             {
-                string storeProcedure = "spRoles_GetAll";
+                string storeProcedure = "spLCRoles_GetAll";
 
                 return
                     connection.Query<RolModel>(
@@ -48,13 +48,14 @@ namespace MolinaTextileSystem.Repositories.LoginCredentials
             {
                 string storedProcedure = "spLoginCredentials_GetAll";
 
-                var loginCredentials = connection.Query<LoginCredentialModel, EmployeeModel, LoginCredentialModel>
-                    (storedProcedure, (loginCredential, employee) => {
+                var loginCredentials = connection.Query<LoginCredentialModel, RolModel, EmployeeModel, LoginCredentialModel>
+                    (storedProcedure, (loginCredential, rol, employee) => {
                         loginCredential.Employee = employee;
+                        loginCredential.Rol = rol;
 
                         return loginCredential;
                     },
-                    splitOn: "EmployeeName",
+                    splitOn: "rolName,EmployeeName",
                     commandType: CommandType.StoredProcedure);
 
                 return loginCredentials;
@@ -84,7 +85,7 @@ namespace MolinaTextileSystem.Repositories.LoginCredentials
 
                 connection.Execute(
                     storeProcedure,
-                    new { loginCredential.Username, loginCredential.Password, loginCredential.EmployeeId },
+                    new { loginCredential.Username, loginCredential.Password, loginCredential.RolId, loginCredential.EmployeeId },
                     commandType: CommandType.StoredProcedure
                 );
             }
@@ -98,7 +99,7 @@ namespace MolinaTextileSystem.Repositories.LoginCredentials
 
                 connection.Execute(
                     storeProcedure,
-                    new { loginCredential.LoginCredentialId, loginCredential.Username, loginCredential.Password, loginCredential.EmployeeId },
+                    new { loginCredential.LoginCredentialId, loginCredential.Username, loginCredential.Password, loginCredential.RolId, loginCredential.EmployeeId },
                     commandType: CommandType.StoredProcedure
                 );
             }

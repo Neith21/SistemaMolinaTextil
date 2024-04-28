@@ -153,9 +153,6 @@ CREATE TABLE CustomerOrderDetails(
 GO
 
 --SP Credentials--
-
-
-
 CREATE OR ALTER PROCEDURE spLoginCredentials_Delete
 	@LoginCredentialId INT
 AS
@@ -168,7 +165,7 @@ GO
 CREATE OR ALTER PROCEDURE spLoginCredentials_GetAll
 AS
 BEGIN
-	SELECT lc.LoginCredentialId, lc.Username, lc.Password, rol.rolName, emp.EmployeeName
+	SELECT lc.LoginCredentialId, lc.Username, lc.Password, lc.RolId, lc.EmployeeId, rol.rolName, emp.EmployeeName
 	FROM LoginCredentials lc
 	INNER JOIN Employees emp ON lc.EmployeeId = emp.EmployeeId
 	INNER JOIN Roles rol ON lc.RolId = rol.rolId
@@ -186,7 +183,7 @@ BEGIN
 	FROM LoginCredentials lc
 	INNER JOIN Employees emp ON lc.EmployeeId = emp.EmployeeId
 	INNER JOIN Roles rol ON lc.RolId = rol.rolId
-	WHERE  Username = @Username AND Password = @Password
+	WHERE Username = @Username AND Password = @Password
 END;
 GO
 
@@ -194,7 +191,7 @@ CREATE OR ALTER PROCEDURE spLoginCredentials_GetById
 	@LoginCredentialId INT
 AS
 BEGIN
-	SELECT lc.LoginCredentialId, lc.Username, lc.Password, rol.rolName, emp.EmployeeName
+	SELECT lc.LoginCredentialId, lc.Username, lc.Password, lc.RolId, lc.EmployeeId, rol.rolName, emp.EmployeeName
 	FROM LoginCredentials lc
 	INNER JOIN Employees emp ON lc.EmployeeId = emp.EmployeeId
 	INNER JOIN Roles rol ON lc.RolId = rol.rolId
@@ -233,6 +230,13 @@ BEGIN
         RolId = @RolId,
 		EmployeeId = @EmployeeId
     WHERE LoginCredentialId = @LoginCredentialId;
+END;
+GO
+
+CREATE OR ALTER PROCEDURE spLCRoles_GetAll
+AS
+BEGIN
+	SELECT rolId, rolName, rolDescription FROM Roles
 END;
 GO
 

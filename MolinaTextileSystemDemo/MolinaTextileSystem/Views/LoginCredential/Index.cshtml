@@ -29,6 +29,7 @@
 						<td>Empleado</td>
 						<td>Usuario</td>
 						<td>Contraseña</td>
+						<td>Rol</td>
 						<td>Acciones</td>
 					</tr>
 				</thead>
@@ -40,6 +41,7 @@
 							<td>@loginCredential.Employee?.EmployeeName</td>
 							<td>@Html.DisplayFor(item => loginCredential.Username)</td>
 							<td>@Html.DisplayFor(item => loginCredential.Password)</td>
+							<td>@loginCredential.Rol?.rolName</td>
 							<td>
 								<a asp-controller="LoginCredential"
 								   asp-action="Edit"
@@ -89,7 +91,7 @@
 				],
 				columnDefs: [
 					{
-						targets: 4,
+						targets: 5,
 						orderable: false,
 						searchable: false
 					}
