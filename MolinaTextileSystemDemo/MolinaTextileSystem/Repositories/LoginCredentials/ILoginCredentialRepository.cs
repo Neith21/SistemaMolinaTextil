@@ -9,6 +9,8 @@ namespace MolinaTextileSystem.Repositories.LoginCredentials
         void Edit(LoginCredentialModel loginCredential);
         IEnumerable<LoginCredentialModel> GetAll();
         IEnumerable<EmployeeModel> GetAllEmployees();
+        IEnumerable<RolModel> GetAllRoles();
         LoginCredentialModel? GetById(int id);
+        LoginCredentialModel? GetCredentials(string username, string password);
     }
 }

@@ -28,6 +28,20 @@ namespace MolinaTextileSystem.Repositories.LoginCredentials
             }
         }
 
+        public IEnumerable<RolModel> GetAllRoles()
+        {
+            using (var connection = _dataAccess.GetConnection())
+            {
+                string storeProcedure = "spRoles_GetAll";
+
+                return
+                    connection.Query<RolModel>(
+                        storeProcedure,
+                        commandType: CommandType.StoredProcedure
+                    );
+            }
+        }
+
         public IEnumerable<LoginCredentialModel> GetAll()
         {
             using (var connection = _dataAccess.GetConnection())
@@ -46,7 +60,6 @@ namespace MolinaTextileSystem.Repositories.LoginCredentials
                 return loginCredentials;
             }
         }
-
 
         public LoginCredentialModel? GetById(int id)
         {
@@ -104,6 +117,21 @@ namespace MolinaTextileSystem.Repositories.LoginCredentials
                 );
             }
 
+        }
+
+        public LoginCredentialModel? GetCredentials(string username, string password)
+        {
+            using (var connection = _dataAccess.GetConnection())
+            {
+                string storeProcedure = "spLoginCredentials_GetCredentials";
+
+                return
+                    connection.QueryFirstOrDefault<LoginCredentialModel>(
+                        storeProcedure,
+                        new { Username = username, Password = password },
+                        commandType: CommandType.StoredProcedure
+                    );
+            }
         }
     }
 }

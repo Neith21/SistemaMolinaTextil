@@ -34,6 +34,31 @@ namespace MolinaTextileSystem.Controllers
             return View();
         }
 
+        public ActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Login(LoginCredentialModel credentialModel)
+        {
+            var credential = _loginCredentialRepository.GetCredentials(credentialModel.Username, credentialModel.Password);
+
+            if (credential != null)
+            {
+                TempData["RolUsername"] = credential.Username;
+                // Redirigir al usuario a la vista del dashboard general
+                return RedirectToAction("Index", "CustomerOrder");
+            }
+            else
+            {
+                TempData["messageLogin"] = "Usuario o Contraseña Incorrectos, Vuelva a Intentarlo";
+            }
+
+            return View(credentialModel);
+        }
+
         // GET: LoginCredentialController/Create
         public ActionResult Create()
         {

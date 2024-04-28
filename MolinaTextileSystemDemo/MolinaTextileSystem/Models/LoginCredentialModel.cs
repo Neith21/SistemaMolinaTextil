@@ -16,8 +16,12 @@ namespace MolinaTextileSystem.Models
         public string Password { get; set; }
 
         [Required(ErrorMessage = "Se requiere el ID del empleado.")]
+        public int RolId { get; set; }
+
+        [Required(ErrorMessage = "Se requiere el ID del empleado.")]
         public int EmployeeId { get; set; }
 
-        public EmployeeModel Employee { get; set; }
+        public RolModel? Rol { get; set; }
+        public EmployeeModel? Employee { get; set; }
     }
 }

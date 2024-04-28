@@ -17,13 +17,28 @@ GO
 INSERT INTO Employees VALUES('Juan', 'Perez', 'Colina Abajo', '1111-1111', 'jpca12@gmail.com');
 GO
 
+CREATE TABLE Roles(
+	rolId INT PRIMARY KEY IDENTITY(1, 1) NOT NULL,
+	rolName VARCHAR(50) NOT NULL,
+	rolDescription VARCHAR(255) NOT NULL
+)
+GO
+
+INSERT INTO Roles VALUES ('Administrador', 'Rol mas Alto')
+GO
+
 CREATE TABLE LoginCredentials(
-    LoginCredentialId INT NOT NULL PRIMARY KEY IDENTITY(1, 1),
+    LoginCredentialId INT PRIMARY KEY IDENTITY(1, 1) NOT NULL,
     Username NVARCHAR(20) NOT NULL,
     Password NVARCHAR(255) NOT NULL,
-    EmployeeId INT NOT NULL FOREIGN KEY REFERENCES Employees(EmployeeId) ON DELETE CASCADE
+	RolId INT FOREIGN KEY REFERENCES Roles(rolId) NOT NULL,
+    EmployeeId INT NOT NULL FOREIGN KEY REFERENCES Employees(EmployeeId)
 );
 GO
+
+INSERT INTO LoginCredentials VALUES ('admin', 'admin123', 1, 1)
+GO
+
 ---------------------------------------------------------------------
 CREATE TABLE Suppliers(
 	SupplierId INT PRIMARY KEY IDENTITY(1, 1) NOT NULL,
@@ -138,74 +153,86 @@ CREATE TABLE CustomerOrderDetails(
 GO
 
 --SP Credentials--
+
+
+
 CREATE OR ALTER PROCEDURE spLoginCredentials_Delete
-	@DetailId INT
+	@LoginCredentialId INT
 AS
 BEGIN
-	DELETE FROM LoanDetails
-	WHERE DetailId = @DetailId;
+	DELETE FROM LoginCredentials
+	WHERE LoginCredentialId = @LoginCredentialId;
 END;
 GO
 
 CREATE OR ALTER PROCEDURE spLoginCredentials_GetAll
 AS
 BEGIN
-	SELECT ld.DetailId, ld.Quantity, ld.LoanId, b.Title
-	FROM LoanDetails ld
-	INNER JOIN Books b
-	ON ld.BookId = b.BookId;
+	SELECT lc.LoginCredentialId, lc.Username, lc.Password, rol.rolName, emp.EmployeeName
+	FROM LoginCredentials lc
+	INNER JOIN Employees emp ON lc.EmployeeId = emp.EmployeeId
+	INNER JOIN Roles rol ON lc.RolId = rol.rolId
 END;
 GO
 
-CREATE OR ALTER PROCEDURE spLoginCredentials_GetAllSpecific
-	@LoanId INT
+CREATE OR ALTER PROCEDURE spLoginCredentials_GetCredentials
+(
+	@Username NVARCHAR(20),
+    @Password NVARCHAR(255)
+)
 AS
 BEGIN
-	SELECT ld.DetailId, ld.Quantity, ld.LoanId, b.Title
-	FROM LoanDetails ld
-	INNER JOIN Books b
-	ON ld.BookId = b.BookId
-	WHERE ld.LoanId = @LoanId;
+	SELECT lc.LoginCredentialId, lc.Username, lc.Password, rol.rolName, emp.EmployeeName
+	FROM LoginCredentials lc
+	INNER JOIN Employees emp ON lc.EmployeeId = emp.EmployeeId
+	INNER JOIN Roles rol ON lc.RolId = rol.rolId
+	WHERE  Username = @Username AND Password = @Password
 END;
 GO
 
 CREATE OR ALTER PROCEDURE spLoginCredentials_GetById
-	@DetailId INT
+	@LoginCredentialId INT
 AS
 BEGIN
-	 SELECT DetailId, LoanId, BookId, Quantity
-	 FROM LoanDetails
-	 WHERE DetailId = @DetailId;
-END
+	SELECT lc.LoginCredentialId, lc.Username, lc.Password, rol.rolName, emp.EmployeeName
+	FROM LoginCredentials lc
+	INNER JOIN Employees emp ON lc.EmployeeId = emp.EmployeeId
+	INNER JOIN Roles rol ON lc.RolId = rol.rolId
+	WHERE LoginCredentialId = @LoginCredentialId
+END;
 GO
 
 CREATE OR ALTER PROCEDURE spLoginCredentials_Insert
 (
-	@Quantity INT,
-    @LoanId INT,
-    @BookId INT
+    @Username NVARCHAR(20),
+    @Password NVARCHAR(255),
+	@RolId INT,
+    @EmployeeId INT
+
 )
 AS
 BEGIN
-	INSERT INTO LoanDetails
-	VALUES(@Quantity, @LoanId, @BookId);
+	INSERT INTO LoginCredentials
+	VALUES(@Username, @Password, @RolId, @EmployeeId);
 END
 GO
 
 CREATE OR ALTER PROCEDURE spLoginCredentials_Update
 (
-    @DetailId INT,
-    @Quantity INT,
-    @LoanId INT,
-    @BookId INT
+	@LoginCredentialId INT,
+    @Username NVARCHAR(20),
+    @Password NVARCHAR(255),
+	@RolId INT,
+    @EmployeeId INT
 )
 AS
 BEGIN
-    UPDATE LoanDetails
-    SET Quantity = @Quantity,
-        LoanId = @LoanId,
-        BookId = @BookId
-    WHERE DetailId = @DetailId;
+    UPDATE LoginCredentials
+    SET Username = @Username,
+        Password = @Password,
+        RolId = @RolId,
+		EmployeeId = @EmployeeId
+    WHERE LoginCredentialId = @LoginCredentialId;
 END;
 GO
 
