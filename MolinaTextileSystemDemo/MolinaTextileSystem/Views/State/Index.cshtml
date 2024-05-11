@@ -1,57 +1,95 @@
 ﻿@model IEnumerable<MolinaTextileSystem.Models.StateModel>
-
 @{
-    ViewData["Title"] = "Index";
+	ViewData["Title"] = "Estados";
 }
 
-<h1>Index</h1>
+<h1 style="text-align:center">Estados</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.StateId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StateName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StateDescription)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.StateId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StateName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StateDescription)
-            </td>
-            <td>
-                    <a asp-controller="State"
-                       asp-action="Edit"
-                       asp-route-id="@item.StateId"
-                       class="btn btn-primary">
-                        Editar
-                    </a>
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
 
-                    <a asp-controller="State"
-                       asp-action="Delete"
-                       asp-route-id="@item.StateId"
-                       class="btn btn-danger">
-                        Eliminar
-                    </a>
-            </td>
-        </tr>
+			<div class="mb-3 mb-3">
+				<a asp-action="Create" asp-controller="State" class="btn btn-success">
+					Nuevo estado
+				</a>
+			</div>
+
+			@if (TempData["message"] != null)
+			{
+				<div class="alert alert-primary" role="alert">
+					@TempData["message"]
+				</div>
+			}
+
+			<table class="table table-bordered table-striped table-responsive" id="stateTable">
+				<thead>
+					<tr>
+						<td>Estado ID</td>
+						<td>Estado</td>
+						<td>Descripción</td>
+						<td>Acciones</td>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var state in Model)
+					{
+						<tr>
+							<td>@Html.DisplayFor(item => state.StateId)</td>
+							<td>@Html.DisplayFor(item => state.StateName)</td>
+							<td>@Html.DisplayFor(item => state.StateDescription)</td>
+							<td>
+								<a asp-controller="State" asp-action="Edit" asp-route-id="@state.StateId" class="btn btn-primary">
+									<i class="fa fa-pencil-alt"></i>
+								</a>
+								<a asp-controller="State" asp-action="Delete" asp-route-id="@state.StateId" class="btn btn-danger">
+									<i class="fa fa-trash"></i>
+								</a>
+							</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+@section Scripts {
+	<script>
+		$(document).ready(function () {
+			$("#stateTable").DataTable({
+				dom: 'Bfrtip',
+				buttons: [
+					{
+						extend: 'csv',
+						exportOptions: {
+							columns: ':not(:last-child)'
+						}
+					},
+					{
+						extend: 'pdf',
+						exportOptions: {
+							columns: ':not(:last-child)'
+						}
+					},
+					{
+						extend: 'excel',
+						exportOptions: {
+							columns: ':not(:last-child)'
+						}
+					}
+				],
+				columnDefs: [
+					{
+						targets: 3,
+						orderable: false,
+						searchable: false
+					}
+				],
+				language: {
+					url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json'
+				}
+			});
+		});
+	</script>
 }
-    </tbody>
-</table>
