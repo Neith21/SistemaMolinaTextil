@@ -1,102 +1,96 @@
 ﻿@model IEnumerable<MolinaTextileSystem.Models.CategoryModel>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Listado de Categorías";
 }
 
-<h1>Index</h1>
+<h1 style="text-align:center">Listado de Categorías</h1>
 
-<p>
-    <a asp-action="Create">Crear Nueva Categoria</a>
-</p>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
 
-@if (TempData["message"] != null)
-{
-	<div class="alert alert-primary" role="alert">
-		@TempData["message"]
-	</div>
-}
+            <div class="mb-3 mb-3">
+                <a asp-action="Create" asp-controller="Category" class="btn btn-success">
+                    Crear Nueva Categoría
+                </a>
+            </div>
 
-<table class="table table-bordered table-striped table-responsive" id="categoryTable">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.CategoryId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CategoryName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CategoryDescription)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.CategoryId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CategoryName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CategoryDescription)
-            </td>
-			<td>
-				<a asp-controller="Category"
-					  asp-action="Edit"
-					  asp-route-id="@item.CategoryId"
-					  class="btn btn-primary">
-						Editar</a>
-				<a asp-controller="Category"
-					  asp-action="Delete"
-					   asp-route-id="@item.CategoryId"
-					  class="btn btn-danger">
-						Eliminar</a>
-			</td>
-        </tr>
-}
-    </tbody>
-</table>
+            @if (TempData["message"] != null)
+            {
+                <div class="alert alert-primary" role="alert">
+                    @TempData["message"]
+                </div>
+            }
+
+            <table class="table table-bordered table-striped table-responsive" id="CategoryTable">
+                <thead>
+                    <tr>
+                        <td>Categoría ID</td>
+                        <td>Nombre</td>
+                        <td>Descripción</td>
+                        <td>Acciones</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var category in Model)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => category.CategoryId)</td>
+                            <td>@Html.DisplayFor(modelItem => category.CategoryName)</td>
+                            <td>@Html.DisplayFor(modelItem => category.CategoryDescription)</td>
+                            <td>
+                                <a asp-controller="Category" asp-action="Edit" asp-route-id="@category.CategoryId" class="btn btn-primary">
+                                    <i class="fa fa-pencil-alt"></i>
+                                </a>
+                                <a asp-controller="Category" asp-action="Delete" asp-route-id="@category.CategoryId" class="btn btn-danger">
+                                    <i class="fa fa-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
 @section Scripts {
-	<script>
-		$(document).ready(function () {
-			$("#categoryTable").DataTable({
-				dom: 'Bfrtip',
-				buttons: [
-					{
-						extend: 'csv',
-						exportOptions: {
-							columns: ':not(:last-child)'
-						}
-					},
-					{
-						extend: 'pdf',
-						exportOptions: {
-							columns: ':not(:last-child)'
-						}
-					},
-					{
-						extend: 'excel',
-						exportOptions: {
-							columns: ':not(:last-child)'
-						}
-					}
-				],
-				columnDefs: [
-					{
-						targets: 3,
-						orderable: false,
-						searchable: false
-					}
-				],
-				language: {
-					url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json'
-				}
-			});
-		});
-	</script>
+    <script>
+        $(document).ready(function () {
+            $("#CategoryTable").DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        extend: 'csv',
+                        exportOptions: {
+                            columns: ':not(:last-child)'
+                        }
+                    },
+                    {
+                        extend: 'pdf',
+                        exportOptions: {
+                            columns: ':not(:last-child)'
+                        }
+                    },
+                    {
+                        extend: 'excel',
+                        exportOptions: {
+                            columns: ':not(:last-child)'
+                        }
+                    }
+                ],
+                columnDefs: [
+                    {
+                        targets: 3,
+                        orderable: false,
+                        searchable: false
+                    }
+                ],
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json'
+                }
+            });
+        });
+    </script>
 }
