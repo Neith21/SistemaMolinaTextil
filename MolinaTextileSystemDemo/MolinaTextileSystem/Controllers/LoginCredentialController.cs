@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MolinaTextileSystem.Models;
 using MolinaTextileSystem.Repositories.LoginCredentials;
+using System.Security.Claims;
 
 namespace MolinaTextileSystem.Controllers
 {
@@ -28,6 +31,7 @@ namespace MolinaTextileSystem.Controllers
             );
         }
 
+        [Authorize]
         // GET: LoginCredentialController
         public ActionResult Index()
         {
@@ -54,8 +58,10 @@ namespace MolinaTextileSystem.Controllers
             if (credential != null)
             {
                 TempData["RolUsername"] = credential.Username;
-                // Redirigir al usuario a la vista del dashboard general
+                HttpContext.SignInAsync("CookieAuth", new ClaimsPrincipal(new ClaimsIdentity(new List<Claim> { new Claim(ClaimTypes.Name, credentialModel.Username) }, "CookieAuth")));
+
                 return RedirectToAction("Index", "CustomerOrder");
+
             }
             else
             {
@@ -65,6 +71,13 @@ namespace MolinaTextileSystem.Controllers
             return View(credentialModel);
         }
 
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync("CookieAuth");
+            return RedirectToAction("Login", "LoginCredential");
+        }
+
+        [Authorize]
         // GET: LoginCredentialController/Create
         public ActionResult Create()
         {
@@ -75,6 +88,7 @@ namespace MolinaTextileSystem.Controllers
             return View();
         }
 
+        [Authorize]
         // POST: LoginCredentialController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -99,6 +113,7 @@ namespace MolinaTextileSystem.Controllers
             }
         }
 
+        [Authorize]
         // GET: LoginCredentialController/Edit/5
         [HttpGet]
         public ActionResult Edit(int id)
@@ -129,6 +144,7 @@ namespace MolinaTextileSystem.Controllers
             return View(loginCredential);
         }
 
+        [Authorize]
         // POST: LoginCredentialController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -153,6 +169,7 @@ namespace MolinaTextileSystem.Controllers
             }
         }
 
+        [Authorize]
         // GET: LoginCredentialController/Delete/5
         [HttpGet]
         public ActionResult Delete(int id)
@@ -167,6 +184,7 @@ namespace MolinaTextileSystem.Controllers
             return View(loginCredential);
         }
 
+        [Authorize]
         // POST: LoginCredentialController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]

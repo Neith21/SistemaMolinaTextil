@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MolinaTextileSystem.Models;
 using MolinaTextileSystem.Repositories.Suppliers;
 
 namespace MolinaTextileSystem.Controllers
 {
+    [Authorize]
     public class SupplierController : Controller
     {
         private readonly ISupplierRepository _supplierRepository;

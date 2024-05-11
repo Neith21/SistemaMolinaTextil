@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MolinaTextileSystem.Models;
 using MolinaTextileSystem.Repositories.RawMeterials;
 
 namespace MolinaTextileSystem.Controllers
 {
+    [Authorize]
     public class RawMaterialsController : Controller
     {
         private readonly IRawMaterialsRepository _rawMaterialsRepository;

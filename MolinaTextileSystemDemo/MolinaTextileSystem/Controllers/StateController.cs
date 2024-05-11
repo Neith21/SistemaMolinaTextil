@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MolinaTextileSystem.Models;
 using MolinaTextileSystem.Repositories.Estado;
 
 namespace MolinaTextileSystem.Controllers
 {
+    [Authorize]
     public class StateController : Controller
     {
         private readonly IStateRepository _stateRepository;

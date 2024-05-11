@@ -30,8 +30,24 @@ builder.Services.AddScoped<IPatternRepository, PatternRepository>();
 builder.Services.AddScoped<ICategoryRepository, Categoryrepository>();
 builder.Services.AddScoped<IRawMaterialsRepository, RawMaterialsRepository>();
 
+builder.Services.AddAuthentication("CookieAuth")
+    .AddCookie("CookieAuth", options =>
+    {
+        options.LoginPath = "/LoginCredential/Login"; // Asegúrate de que esta ruta apunte al método de tu controlador que maneja el login.
+        options.AccessDeniedPath = "/LoginCredential/AccessDenied"; // Puedes configurar esta ruta según sea necesario.
+        options.Cookie.Name = "MolinaTextileSystemAuthCookie";
+    });
+
 
 var app = builder.Build();
+
+app.Use(async (context, next) =>
+{
+    context.Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
+    context.Response.Headers["Pragma"] = "no-cache";
+    context.Response.Headers["Expires"] = "0";
+    await next();
+});
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -41,6 +57,8 @@ if (!app.Environment.IsDevelopment())
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

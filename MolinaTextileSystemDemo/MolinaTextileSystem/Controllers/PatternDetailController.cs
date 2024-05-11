@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MolinaTextileSystem.Models;
@@ -7,7 +8,8 @@ using MolinaTextileSystem.Repositories.PatternDetails;
 
 namespace MolinaTextileSystem.Controllers
 {
-	public class PatternDetailController : Controller
+    [Authorize]
+    public class PatternDetailController : Controller
 	{
 		public readonly IPatternDetailRepository _patternDetailRepository;
 

@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MolinaTextileSystem.Models;
 using MolinaTextileSystem.Repositories.Pattern;
 
 namespace MolinaTextileSystem.Controllers
 {
+    [Authorize]
     public class PatternController : Controller
     {
         private readonly IPatternRepository _patternRepository;

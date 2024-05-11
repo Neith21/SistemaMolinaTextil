@@ -32,7 +32,7 @@ namespace MolinaTextileSystem.Repositories.LoginCredentials
         {
             using (var connection = _dataAccess.GetConnection())
             {
-                string storeProcedure = "spLCRoles_GetAll";
+                string storeProcedure = "spRoles_GetAll";
 
                 return
                     connection.Query<RolModel>(

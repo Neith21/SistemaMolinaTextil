@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MolinaTextileSystem.Models;
@@ -6,6 +7,7 @@ using MolinaTextileSystem.Repositories.CustomerOrders;
 
 namespace MolinaTextileSystem.Controllers
 {
+    [Authorize]
     public class CustomerOrderController : Controller
     {
         private readonly ICustomerOrderRepository _customerOrderRepository;
