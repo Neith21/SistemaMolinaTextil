@@ -43,17 +43,11 @@
 							<td>@Html.DisplayFor(item => loginCredential.Password)</td>
 							<td>@loginCredential.Rol?.rolName</td>
 							<td>
-								<a asp-controller="LoginCredential"
-								   asp-action="Edit"
-								   asp-route-id="@loginCredential.LoginCredentialId"
-								   class="btn btn-primary">
-									Editar
+								<a asp-controller="LoginCredential" asp-action="Edit" asp-route-id="@loginCredential.LoginCredentialId" class="btn btn-primary">
+									<i class="fa fa-pencil-alt"></i>
 								</a>
-								<a asp-controller="LoginCredential"
-								   asp-action="Delete"
-								   asp-route-id="@loginCredential.LoginCredentialId"
-								   class="btn btn-danger">
-									Eliminar
+								<a asp-controller="LoginCredential" asp-action="Delete" asp-route-id="@loginCredential.LoginCredentialId" class="btn btn-danger">
+									<i class="fa fa-trash"></i>
 								</a>
 							</td>
 						</tr>

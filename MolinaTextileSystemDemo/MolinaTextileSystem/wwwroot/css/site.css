@@ -20,3 +20,134 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+h1 {
+    text-align: center;
+    color: #C1272D;
+}
+
+.btn {
+    font-family: 'Roboto', cursive;
+    background: linear-gradient(to right, #C1272D, #C1272D);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+    .btn:hover {
+        transform: translateY(-2px);
+    }
+
+/* Estilos para la tabla */
+.table thead {
+    background-color: #C1272D;
+    color: white;
+}
+
+.table tbody tr:nth-child(even) {
+    background-color: #E58E8E;
+}
+
+.alert-primary {
+    background-color: #add8e6;
+    color: #000;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+/* Estilos Base */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #F9E0D2; /* Beige claro para el fondo */
+    color: #672E3B; /* Morado oscuro para el texto */
+}
+
+body h1 {
+    margin-top: 20px;
+}
+
+a {
+    color: #C1272D;
+    text-decoration: none;
+}
+
+    a:hover {
+        color: #F7931E;
+    }
+
+/* Encabezado */
+header {
+    background-color: #C1272D; /* Rojo Oscuro */
+    color: white;
+    padding: 20px 20px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    margin: 0;
+}
+
+    header h1 {
+        margin: 0;
+        font-size: 24px;
+    }
+
+/* Pie de página */
+footer {
+    background-color: #672E3B; /* Morado */
+    color: white;
+    text-align: center;
+    padding: 20px 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+    footer p {
+        margin: 0;
+        font-size: 16px;
+    }
+
+footer div {
+    color: white;
+}
+
+    footer a {
+        color: white;
+    }
+
+/* Nav */
+/* Estilos para la barra de navegación */
+/* Estilos para la barra de navegación */
+.navbar {
+    background-color: #C1272D; /* Usando el rojo oscuro para toda la barra */
+    color: white;
+    border-bottom: 2px solid #672E3B; /* Borde morado para un ligero contraste */
+    margin: 0;
+}
+
+.navbar-brand, .nav-link {
+    color: white; /* Cambio de texto a blanco para mejor contraste */
+}
+
+    .navbar-brand:hover, .nav-link:hover {
+        color: #F7931E; /* Naranja al pasar el cursor */
+    }
+
+/* Estilo específico para el enlace de cerrar sesión */
+.logout-link {
+    color: #F9E0D2; /* Color beige claro para destacar el enlace de cerrar sesión */
+}
+
+    .logout-link:hover {
+        color: #fff; /* Blanco al pasar el cursor */
+    }
+
+.navbar-toggler {
+    border-color: #fff; /* Borde blanco del botón del menú */
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,<svg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'><path stroke='#FFFFFF' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/></svg>"); /* Icono del menú con trazos en blanco */
+}
