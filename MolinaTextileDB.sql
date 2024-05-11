@@ -25,6 +25,7 @@ CREATE TABLE Roles(
 GO
 
 INSERT INTO Roles VALUES ('Administrador', 'Rol mas Alto')
+INSERT INTO Roles VALUES ('Empleado', 'Rol secundario')
 GO
 
 CREATE TABLE LoginCredentials(
@@ -37,6 +38,7 @@ CREATE TABLE LoginCredentials(
 GO
 
 INSERT INTO LoginCredentials VALUES ('admin', 'admin123', 1, 1)
+INSERT INTO LoginCredentials VALUES ('empleado', 'empleado123', 2, 1)
 GO
 
 ---------------------------------------------------------------------
@@ -179,10 +181,8 @@ CREATE OR ALTER PROCEDURE spLoginCredentials_GetCredentials
 )
 AS
 BEGIN
-	SELECT lc.LoginCredentialId, lc.Username, lc.Password, rol.rolName, emp.EmployeeName
-	FROM LoginCredentials lc
-	INNER JOIN Employees emp ON lc.EmployeeId = emp.EmployeeId
-	INNER JOIN Roles rol ON lc.RolId = rol.rolId
+	SELECT LoginCredentialId, Username, Password, RolId, EmployeeId
+	FROM LoginCredentials
 	WHERE Username = @Username AND Password = @Password
 END;
 GO

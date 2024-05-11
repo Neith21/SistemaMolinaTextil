@@ -49,9 +49,12 @@
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-action="Index" asp-controller="Supplier">Proveedores</a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-action="Index" asp-controller="LoginCredential">Credenciales de empleados (prueba)</a>
-                                </li>
+                                @if (TempData["RolUsername"]?.ToString() == EnumRolesModel.RolUsuario.Administrador.ToString())
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-action="Index" asp-controller="LoginCredential">Credenciales de empleados (prueba)</a>
+                                    </li>
+                                }
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-action="Index" asp-controller="State">Estados</a>
                                 </li>

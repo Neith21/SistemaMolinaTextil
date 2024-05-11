@@ -54,10 +54,12 @@ namespace MolinaTextileSystem.Controllers
         public ActionResult Login(LoginCredentialModel credentialModel)
         {
             var credential = _loginCredentialRepository.GetCredentials(credentialModel.Username, credentialModel.Password);
+            var rol = _loginCredentialRepository.GetAllRoles();
 
             if (credential != null)
             {
-                TempData["RolUsername"] = credential.Username;
+                credential.Rol = rol.FirstOrDefault(r => r.rolId == credential.RolId);
+                TempData["RolUsername"] = credential?.Rol?.rolName;
                 HttpContext.SignInAsync("CookieAuth", new ClaimsPrincipal(new ClaimsIdentity(new List<Claim> { new Claim(ClaimTypes.Name, credentialModel.Username) }, "CookieAuth")));
 
                 return RedirectToAction("Index", "CustomerOrder");
