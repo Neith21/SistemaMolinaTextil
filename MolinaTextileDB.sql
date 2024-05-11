@@ -233,7 +233,7 @@ BEGIN
 END;
 GO
 
-CREATE OR ALTER PROCEDURE spLCRoles_GetAll
+CREATE OR ALTER PROCEDURE spRoles_GetAll
 AS
 BEGIN
 	SELECT rolId, rolName, rolDescription FROM Roles

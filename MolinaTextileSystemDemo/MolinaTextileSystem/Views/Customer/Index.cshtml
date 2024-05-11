@@ -1,71 +1,75 @@
 ﻿@model IEnumerable<CustomerModel>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Índice de Clientes";
 }
 
-<h1>Index</h1>
+<h1>Índice de Clientes</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-success">Crear Nuevo</a>
 </p>
 
 @if (TempData["message"] != null)
 {
-    <div class="alert alert-primary" role="alert">
+    <div class="alert alert-info" role="alert">
         @TempData["message"]
     </div>
 }
 
-<table class="table">
-    <thead>
+<input type="text" id="customerSearch" class="form-control mb-3" placeholder="Buscar cliente..." onkeyup="searchCustomers()" />
+
+<table class="table table-responsive table-hover">
+    <thead class="thead-light">
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.CustomerId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CustomerName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CustomerAddress)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CustomerPhone)
-            </th>
-            <th></th>
+            <th>@Html.DisplayNameFor(model => model.CustomerId)</th>
+            <th>@Html.DisplayNameFor(model => model.CustomerName)</th>
+            <th>@Html.DisplayNameFor(model => model.CustomerAddress)</th>
+            <th>@Html.DisplayNameFor(model => model.CustomerPhone)</th>
+            <th>Acciones</th>
         </tr>
     </thead>
     <tbody>
-@foreach (var customer in Model) {
-        <tr>
-            <td>
-                    @Html.DisplayFor(modelItem => customer.CustomerId)
-            </td>
-            <td>
-                    @Html.DisplayFor(modelItem => customer.CustomerName)
-            </td>
-            <td>
-                    @Html.DisplayFor(modelItem => customer.CustomerAddress)
-            </td>
-            <td>
-                    @Html.DisplayFor(modelItem => customer.CustomerPhone)
-            </td>
-            <td>
-                    <a asp-controller="Customer"
-                       asp-action="Edit"
-                       asp-route-id="@customer.CustomerId"
-                       class="btn btn-primary">
-                        Editar
+        @foreach (var customer in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => customer.CustomerId)</td>
+                <td>@Html.DisplayFor(modelItem => customer.CustomerName)</td>
+                <td>@Html.DisplayFor(modelItem => customer.CustomerAddress)</td>
+                <td>@Html.DisplayFor(modelItem => customer.CustomerPhone)</td>
+                <td>
+                    <a asp-controller="Customer" asp-action="Edit" asp-route-id="@customer.CustomerId" class="btn btn-primary">
+                        <i class="fa fa-pencil-alt"></i>
                     </a>
-
-                    <a asp-controller="Customer"
-                       asp-action="Delete"
-                       asp-route-id="@customer.CustomerId"
-                       class="btn btn-danger">
-                        Eliminar
+                    <a asp-controller="Customer" asp-action="Delete" asp-route-id="@customer.CustomerId" class="btn btn-danger">
+                        <i class="fa fa-trash"></i>
                     </a>
-            </td>
-        </tr>
-}
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+<script>
+    function searchCustomers() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("customerSearch");
+        filter = input.value.toUpperCase();
+        table = document.getElementsByTagName("table")[0];
+        tr = table.getElementsByTagName("tr");
+
+        for (i = 1; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[1]; // Index 1 es CustomerName
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
