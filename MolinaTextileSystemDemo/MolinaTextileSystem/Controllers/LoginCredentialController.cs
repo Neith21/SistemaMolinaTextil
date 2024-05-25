@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MolinaTextileSystem.Models;
 using MolinaTextileSystem.Repositories.LoginCredentials;
+using System.Net;
 using System.Security.Claims;
 
 namespace MolinaTextileSystem.Controllers
@@ -51,16 +52,16 @@ namespace MolinaTextileSystem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(LoginCredentialModel credentialModel)
+        public ActionResult Login(LoginCredentialModel loginCredentialModel)
         {
-            var credential = _loginCredentialRepository.GetCredentials(credentialModel.Username, credentialModel.Password);
+            var credential = _loginCredentialRepository.GetCredentials(loginCredentialModel.Username, loginCredentialModel.Password);
             var rol = _loginCredentialRepository.GetAllRoles();
 
             if (credential != null)
             {
                 credential.Rol = rol.FirstOrDefault(r => r.rolId == credential.RolId);
                 TempData["RolUsername"] = credential?.Rol?.rolName;
-                HttpContext.SignInAsync("CookieAuth", new ClaimsPrincipal(new ClaimsIdentity(new List<Claim> { new Claim(ClaimTypes.Name, credentialModel.Username) }, "CookieAuth")));
+                HttpContext.SignInAsync("CookieAuth", new ClaimsPrincipal(new ClaimsIdentity(new List<Claim> { new Claim(ClaimTypes.Name, loginCredentialModel.Username) }, "CookieAuth")));
 
                 return RedirectToAction("Index", "CustomerOrder");
 
@@ -70,14 +71,45 @@ namespace MolinaTextileSystem.Controllers
                 TempData["messageLogin"] = "Usuario o Contraseña Incorrectos, Vuelva a Intentarlo";
             }
 
-            return View(credentialModel);
+            return View(loginCredentialModel);
         }
 
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync("CookieAuth");
+            TempData["RolUsername"] = "";
             return RedirectToAction("Login", "LoginCredential");
         }
+
+        public ActionResult RestorePassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult RestorePassword(LoginCredentialModel loginCredentialModel)
+        {
+            var credentials = _loginCredentialRepository.GetAll().FirstOrDefault(r => r.Username == loginCredentialModel.Username 
+                                                                  && r.Employee?.EmployeeName == loginCredentialModel.Employee?.EmployeeName);
+
+            if (credentials != null)
+            {
+                credentials.Password = loginCredentialModel.Password;
+
+                _loginCredentialRepository.Edit(credentials);
+
+                TempData["messageLogin"] = "Contraseña restaurada correctamente.";
+
+                return RedirectToAction("Login", "LoginCredential");
+            }
+            else
+            {
+                TempData["messageRestorePassword"] = "Usuario no encontrado, Vuelva a Intentarlo";
+            }
+            return View(loginCredentialModel);
+        }
+
 
         [Authorize]
         // GET: LoginCredentialController/Create
