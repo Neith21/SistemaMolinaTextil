@@ -59,7 +59,7 @@ namespace MolinaTextileSystem.Controllers
 
                 TempData["message"] = "Datos guardados correctamente.";
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("GetAllCustomerOrderDetails", "CustomerOrder", new { id = customerOrderDetailModel.CustomerOrderId });
             }
             catch (Exception ex)
             {
@@ -96,7 +96,7 @@ namespace MolinaTextileSystem.Controllers
         // POST: CustomerOrderDetailController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(CustomerOrderDetailModel customerOrderDetail)
+        public ActionResult Edit(CustomerOrderDetailModel customerOrderDetail, int CustomerOrderId)
         {
             try
             {
@@ -104,7 +104,7 @@ namespace MolinaTextileSystem.Controllers
 
                 TempData["message"] = "Datos editados correctamente.";
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("GetAllCustomerOrderDetails", "CustomerOrder", new { id = CustomerOrderId });
             }
             catch (Exception ex)
             {

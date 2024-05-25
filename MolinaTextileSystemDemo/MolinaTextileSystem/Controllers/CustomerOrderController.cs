@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MolinaTextileSystem.Models;
 using MolinaTextileSystem.Repositories.CustomerOrders;
+using MolinaTextileSystem.Repositories.CustomersOrdersDetails;
 
 namespace MolinaTextileSystem.Controllers
 {
@@ -11,14 +12,16 @@ namespace MolinaTextileSystem.Controllers
     public class CustomerOrderController : Controller
     {
         private readonly ICustomerOrderRepository _customerOrderRepository;
+        private readonly ICustomersOrdersDetailsRepository _customersOrdersDetailsRepository;
 
         private SelectList _customersList;
         private SelectList _employeesList;
         private SelectList _statesList;
 
-        public CustomerOrderController(ICustomerOrderRepository customerOrderRepository)
+        public CustomerOrderController(ICustomerOrderRepository customerOrderRepository, ICustomersOrdersDetailsRepository customersOrdersDetailsRepository)
         {
             _customerOrderRepository = customerOrderRepository;
+            _customersOrdersDetailsRepository = customersOrdersDetailsRepository;
             _customersList = new SelectList(
                 _customerOrderRepository.GetAllCustomers(),
                 nameof(CustomerModel.CustomerId),
@@ -40,6 +43,12 @@ namespace MolinaTextileSystem.Controllers
         public ActionResult Index()
         {
             return View(_customerOrderRepository.GetAll());
+        }
+
+        public ActionResult GetAllCustomerOrderDetails(int id)
+        {
+            ViewBag.CustomerOrderId = id;
+            return View(_customersOrdersDetailsRepository.GetSpecificById(id));
         }
 
         // GET: CustomerOrderController/Details/5

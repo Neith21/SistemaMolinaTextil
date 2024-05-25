@@ -710,6 +710,17 @@ BEGIN
 END;
 GO
 
+CREATE OR ALTER PROCEDURE spCustomersOrdersDetails_GetAllSpecific
+	@CustomerOrderId INT
+AS
+BEGIN
+	SELECT CustomerOrderDetails.CustomerOrderDetailId, CustomerOrderDetails.UnitPrice, CustomerOrderDetails.CustomerOrderDetailQuantity, CustomerOrderDetails.CustomerOrderId, Products.ProductName
+	FROM CustomerOrderDetails
+	INNER JOIN Products ON CustomerOrderDetails.ProductId = Products.ProductId
+	WHERE CustomerOrderId = @CustomerOrderId;
+END;
+GO
+
 CREATE OR ALTER PROCEDURE spCustomersOrdersDetails_GetById
 (
 	@CustomerOrderDetailId INT

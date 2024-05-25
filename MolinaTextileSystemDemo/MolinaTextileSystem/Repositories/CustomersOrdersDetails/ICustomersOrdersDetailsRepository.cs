@@ -11,5 +11,6 @@ namespace MolinaTextileSystem.Repositories.CustomersOrdersDetails
 		IEnumerable<CustomerOrderModel> GetAllCustomerOrder();
 		IEnumerable<ProductModel> GetAllProduct();
 		CustomerOrderDetailModel? GetById(int id);
-	}
+        IEnumerable<CustomerOrderDetailModel> GetSpecificById(int id);
+    }
 }

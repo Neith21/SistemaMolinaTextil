@@ -42,6 +42,28 @@ namespace MolinaTextileSystem.Repositories.CustomersOrdersDetails
             }
         }
 
+        public IEnumerable<CustomerOrderDetailModel> GetSpecificById(int id)
+        {
+            using (var connection = _dataAccess.GetConnection())
+            {
+                string storedProcedure = "spCustomersOrdersDetails_GetAllSpecific";
+
+                var customersOrdersDetails = connection.Query<CustomerOrderDetailModel, ProductModel, CustomerOrderDetailModel>
+                    (storedProcedure, (customerOrderDetail, product) =>
+                    {
+                        customerOrderDetail.Producto = product;
+
+                        return customerOrderDetail;
+                    },
+                    splitOn: "ProductName",
+                    commandType: CommandType.StoredProcedure,
+                    param: new { CustomerOrderId = id }
+                );
+
+                return customersOrdersDetails.Where(detail => detail.CustomerOrderId == id);
+            }
+        }
+
         public IEnumerable<CustomerOrderDetailModel> GetAll()
         {
             using (var connection = _dataAccess.GetConnection())

@@ -1,55 +1,105 @@
 ﻿@model MolinaTextileSystem.Models.CustomerOrderDetailModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Detalle añadida a la orden";
 }
 
-<h1>Create</h1>
-
-<h4>CustomerOrderDetailModel</h4>
+<h1 style="text-align:center">Detalle añadida a la orden</h1>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="UnitPrice" class="control-label"></label>
-                <input asp-for="UnitPrice" class="form-control" />
-                <span asp-validation-for="UnitPrice" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CustomerOrderDetailQuantity" class="control-label"></label>
-                <input asp-for="CustomerOrderDetailQuantity" class="form-control" />
-                <span asp-validation-for="CustomerOrderDetailQuantity" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CustomerOrderId" class="form-label">Patrón</label>
-                <select asp-for="CustomerOrderId" class="form-select"> <!-- AGREGAR VIEWBAG -->
-                    <option value="">Seleccione</option>
-                    <option value="6">6</option>
-                </select>
-                <span asp-validation-for="CustomerOrderId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ProductId" class="form-label">Patrón</label>
-                <select asp-for="ProductId"
-                        asp-items="@ViewBag.Product"
-                        class="form-select">
-                    <option value="">Seleccione</option>
-                </select>
-                <span asp-validation-for="CustomerOrderId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Crear" class="btn btn-primary" />
-            </div>
-        </form>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <form asp-action="Create" onsubmit="return confirmAction();">
+                @Html.AntiForgeryToken()
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                @if (TempData["message"] != null)
+                {
+                    <div class="alert alert-primary" role="alert">
+                        @TempData["message"]
+                    </div>
+                }
+
+                <div class="mb-3">
+                    <label asp-for="CustomerOrderId" class="form-label">Orden ID</label>
+                    <input asp-for="CustomerOrderId" type="text" class="form-control" readonly="readonly" id="CustomerOrderIdInput" />
+                    <span asp-validation-for="CustomerOrderId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ProductId" class="form-label">Producto</label>
+                    <select asp-for="ProductId"
+                            asp-items="@ViewBag.Product"
+                            class="form-select">
+                        <option value="">Seleccione</option>
+                    </select>
+                    <span asp-validation-for="ProductId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="UnitPrice" class="control-label"></label>
+                    <input asp-for="UnitPrice" class="form-control" />
+                    <span asp-validation-for="UnitPrice" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="CustomerOrderDetailQuantity" class="form-label">Cantidad</label>
+                    <div class="input-group">
+                        <input asp-for="CustomerOrderDetailQuantity" type="number" class="form-control" min="1" />
+                        <button type="button" class="btn btn-secondary" onclick="increment()">+</button>
+                        <button type="button" class="btn btn-secondary" onclick="decrement()">-</button>
+                    </div>
+                    <span asp-validation-for="CustomerOrderDetailQuantity" class="text-danger"></span>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <form method="post" asp-action="Create" asp-controller="CustomerOrderDetail">
+                        <input type="hidden" name="CustomerOrderId" value="@ViewBag.CustomerOrderId" />
+                        <input type="submit" value="Guardar" class="btn btn-primary" />
+                    </form>
+                    <a id="regresarLink" class="btn btn-danger">Regresar al listado</a>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        var url = window.location.pathname;
+        var id = url.substring(url.lastIndexOf('/') + 1);
+
+        document.getElementById('CustomerOrderIdInput').value = id;
+
+        document.getElementById('regresarLink').addEventListener('click', function () {
+            var url = '@Url.Action("GetAllCustomerOrderDetails", "CustomerOrder", new { id = "PLACEHOLDER" })';
+            url = url.replace('PLACEHOLDER', id);
+            window.location.href = url;
+        });
+
+        function confirmAction() {
+            if (confirm('¿Está seguro de añadir este detalle a la orden?')) {
+                return true;
+            } else {
+                var url = '@Url.Action("GetAllCustomerOrderDetails", "CustomerOrder", new { id = "PLACEHOLDER" })';
+                url = url.replace('PLACEHOLDER', id);
+                window.location.href = url;
+                return false;
+            }
+        }
+        function increment() {
+            var input = document.getElementById('Quantity');
+            var currentValue = parseInt(input.value);
+            input.value = currentValue + 1;
+        }
+
+        function decrement() {
+            var input = document.getElementById('Quantity');
+            var currentValue = parseInt(input.value);
+            if (currentValue > 1) {
+                input.value = currentValue - 1;
+            }
+        }
+    </script>
 }
