@@ -74,11 +74,11 @@ namespace MolinaTextileSystem.Controllers
         {
             try
             {
-                _customerOrderRepository.Add(customerOrder);
+                int id = _customerOrderRepository.Add(customerOrder);
 
                 TempData["message"] = "Datos guardados correctamente.";
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("GetAllCustomerOrderDetails", new { id });
             }
             catch (Exception ex)
             {

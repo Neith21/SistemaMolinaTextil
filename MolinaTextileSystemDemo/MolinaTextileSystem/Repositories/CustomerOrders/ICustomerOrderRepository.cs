@@ -4,7 +4,7 @@ namespace MolinaTextileSystem.Repositories.CustomerOrders
 {
     public interface ICustomerOrderRepository
     {
-        void Add(CustomerOrderModel customerOrder);
+        int Add(CustomerOrderModel customerOrder);
         void Delete(int id);
         void Edit(CustomerOrderModel customerOrder);
         IEnumerable<CustomerOrderModel> GetAll();

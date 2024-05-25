@@ -93,19 +93,28 @@ namespace MolinaTextileSystem.Repositories.CustomerOrders
             }
         }
 
-        public void Add(CustomerOrderModel customerOrder)
+        public int Add(CustomerOrderModel customerOrder)
         {
             using (var connection = _dataAccess.GetConnection())
             {
                 string storeProcedure = "spCustomerOrders_Insert";
 
-                connection.Execute(
-                    storeProcedure,
-                    new { customerOrder.CreationDate, customerOrder.DeliveryDate, customerOrder.TotalAmount, customerOrder.CustomerId, customerOrder.EmployeeId, customerOrder.StateId },
-                    commandType: CommandType.StoredProcedure
-                );
+                var parameters = new DynamicParameters();
+                parameters.Add("CreationDate", customerOrder.CreationDate);
+                parameters.Add("DeliveryDate", customerOrder.DeliveryDate);
+                parameters.Add("TotalAmount", customerOrder.TotalAmount);
+                parameters.Add("CustomerId", customerOrder.CustomerId);
+                parameters.Add("EmployeeId", customerOrder.EmployeeId);
+                parameters.Add("StateId", customerOrder.StateId);
+                parameters.Add("NewCustomerOrderId", dbType: DbType.Int32, direction: ParameterDirection.Output);
+
+                connection.Execute(storeProcedure, parameters, commandType: CommandType.StoredProcedure);
+
+                int newCustomerOrderId = parameters.Get<int>("NewCustomerOrderId");
+                return newCustomerOrderId;
             }
         }
+
 
         public void Edit(CustomerOrderModel customerOrder)
         {

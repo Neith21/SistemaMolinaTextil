@@ -283,12 +283,15 @@ CREATE OR ALTER PROCEDURE spCustomerOrders_Insert
     @TotalAmount MONEY,
     @CustomerId INT,
     @EmployeeId INT,
-    @StateId INT
+    @StateId INT,
+    @NewCustomerOrderId INT OUTPUT -- Parámetro de salida para el ID
 )
 AS
 BEGIN
     INSERT INTO CustomerOrders (CreationDate, DeliveryDate, TotalAmount, CustomerId, EmployeeId, StateId)
     VALUES (@CreationDate, @DeliveryDate, @TotalAmount, @CustomerId, @EmployeeId, @StateId);
+
+    SET @NewCustomerOrderId = SCOPE_IDENTITY();
 END;
 GO
 
