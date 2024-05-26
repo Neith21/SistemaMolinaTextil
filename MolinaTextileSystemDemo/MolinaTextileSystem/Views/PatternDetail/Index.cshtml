@@ -42,17 +42,11 @@
                     <td>@Html.DisplayFor(item => patternDetail.RawMaterialQuantity)</td>
                     <td>@patternDetail.Pattern?.PatternName</td>
                     <td>
-                        <a asp-controller="PatternDetail"
-                           asp-action="Edit"
-                           asp-route-id="@patternDetail.PatternDetailId"
-                           class="btn btn-primary">
-                            Editar
+                        <a asp-controller="Customer" asp-action="Edit" asp-route-id="@patternDetail.PatternDetailId" class="btn btn-primary">
+                            <i class="fa fa-pencil-alt"></i>
                         </a>
-                        <a asp-controller="PatternDetail"
-                           asp-action="Delete"
-                           asp-route-id="@patternDetail.PatternDetailId"
-                           class="btn btn-danger">
-                            Eliminar
+                        <a asp-controller="Customer" asp-action="Delete" asp-route-id="@patternDetail.PatternDetailId" class="btn btn-danger">
+                            <i class="fa fa-trash"></i>
                         </a>
                     </td>
                 </tr>

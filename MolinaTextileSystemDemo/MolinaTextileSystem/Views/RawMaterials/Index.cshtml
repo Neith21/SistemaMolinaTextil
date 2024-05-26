@@ -1,80 +1,103 @@
 ﻿@model IEnumerable<MolinaTextileSystem.Models.RawMaterialsModel>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Materiales";
 }
 
-<h1>Index</h1>
+<h1 style="text-align:center">Materiales</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.RawMaterialId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RawMaterialName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RawMaterialDescription)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RawMaterialPurchasePrice)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RawMaterialQuantity)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CategoryId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Supplier.SupplierId)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.RawMaterialId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RawMaterialName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RawMaterialDescription)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RawMaterialPurchasePrice)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RawMaterialQuantity)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category.CategoryName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Supplier.SupplierName)
-            </td>
-            <td>
-                    <a asp-controller="RawMaterials"
-                       asp-action="Edit"
-                       asp-route-id="@item.RawMaterialId"
-                       class="btn btn-primary">
-                        Editar
-                    </a>
-                    <a asp-controller="RawMaterials"
-                       asp-action="Delete"
-                       asp-route-id="@item.RawMaterialId"
-                       class="btn btn-danger">
-                        Eliminar
-                    </a>
-            </td>
-        </tr>
+<div class="container">
+    <div class="row d-flex">
+        <div class="col-6">
+            <div class="mb-3">
+                <a asp-action="Create" asp-controller="RawMaterials" class="btn btn-success">
+                    Crear nuevo material
+                </a>
+            </div>
+        </div>
+    </div>
+
+    @if (TempData["message"] != null)
+    {
+        <div class="alert alert-primary" role="alert">
+            @TempData["message"]
+        </div>
+    }
+
+    <table class="table table-bordered table-striped table-responsive" id="rawMaterialsTable">
+        <thead>
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.RawMaterialId)</td>
+                <td>@Html.DisplayNameFor(model => model.RawMaterialName)</td>
+                <td>@Html.DisplayNameFor(model => model.RawMaterialDescription)</td>
+                <td>@Html.DisplayNameFor(model => model.RawMaterialPurchasePrice)</td>
+                <td>@Html.DisplayNameFor(model => model.RawMaterialQuantity)</td>
+                <td>@Html.DisplayNameFor(model => model.Category.CategoryName)</td>
+                <td>@Html.DisplayNameFor(model => model.Supplier.SupplierName)</td>
+                <td>Acciones</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.RawMaterialId)</td>
+                    <td>@Html.DisplayFor(modelItem => item.RawMaterialName)</td>
+                    <td>@Html.DisplayFor(modelItem => item.RawMaterialDescription)</td>
+                    <td>@Html.DisplayFor(modelItem => item.RawMaterialPurchasePrice)</td>
+                    <td>@Html.DisplayFor(modelItem => item.RawMaterialQuantity)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Category.CategoryName)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Supplier.SupplierName)</td>
+                    <td>
+                        <a asp-controller="RawMaterials" asp-action="Edit" asp-route-id="@item.RawMaterialId" class="btn btn-primary">
+                            <i class="fa fa-pencil-alt"></i>
+                        </a>
+                        <a asp-controller="RawMaterials" asp-action="Delete" asp-route-id="@item.RawMaterialId" class="btn btn-danger">
+                            <i class="fa fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $("#rawMaterialsTable").DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        extend: 'csv',
+                        exportOptions: {
+                            columns: ':not(:last-child)'
+                        }
+                    },
+                    {
+                        extend: 'pdf',
+                        exportOptions: {
+                            columns: ':not(:last-child)'
+                        }
+                    },
+                    {
+                        extend: 'excel',
+                        exportOptions: {
+                            columns: ':not(:last-child)'
+                        }
+                    }
+                ],
+                columnDefs: [
+                    {
+                        targets: 7,
+                        orderable: false,
+                        searchable: false
+                    }
+                ],
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json'
+                }
+            });
+        });
+    </script>
 }
-    </tbody>
-</table>

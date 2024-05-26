@@ -4,53 +4,92 @@
     ViewData["Title"] = "Lista de Patrones";
 }
 
-<h1>Lista de Patrones</h1>
+<h1 style="text-align:center">Lista de Patrones</h1>
 
-<p>
-    <a asp-action="Create" class="btn btn-success">Agregar Patrón</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.PatternId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PatternName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PatternDescription)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.PatternId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PatternName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PatternDescription)
-            </td>
-            <td>
-                    <a asp-controller="Pattern"
-                       asp-action="Edit"
-                       asp-route-id="@item.PatternId"
-                       class="btn btn-primary">
-                        Editar
-                    </a>
-                    <a asp-controller="Pattern"
-                       asp-action="Delete"
-                       asp-route-id="@item.PatternId"
-                       class="btn btn-danger">
-                        Eliminar
-                    </a>
-            </td>
-        </tr>
+<div class="container">
+    <div class="row d-flex">
+        <div class="col-6">
+            <div class="mb-3">
+                <a asp-action="Create" asp-controller="Pattern" class="btn btn-success">
+                    Agregar Patrón
+                </a>
+            </div>
+        </div>
+    </div>
+
+    @if (TempData["message"] != null)
+    {
+        <div class="alert alert-primary" role="alert">
+            @TempData["message"]
+        </div>
+    }
+
+    <table class="table table-bordered table-striped table-responsive" id="patternsTable">
+        <thead>
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.PatternId)</td>
+                <td>@Html.DisplayNameFor(model => model.PatternName)</td>
+                <td>@Html.DisplayNameFor(model => model.PatternDescription)</td>
+                <td>Acciones</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.PatternId)</td>
+                    <td>@Html.DisplayFor(modelItem => item.PatternName)</td>
+                    <td>@Html.DisplayFor(modelItem => item.PatternDescription)</td>
+                    <td>
+                        <a asp-controller="Pattern" asp-action="Edit" asp-route-id="@item.PatternId" class="btn btn-primary">
+                            <i class="fa fa-pencil-alt"></i>
+                        </a>
+                        <a asp-controller="Pattern" asp-action="Delete" asp-route-id="@item.PatternId" class="btn btn-danger">
+                            <i class="fa fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $("#patternsTable").DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        extend: 'csv',
+                        exportOptions: {
+                            columns: ':not(:last-child)'
+                        }
+                    },
+                    {
+                        extend: 'pdf',
+                        exportOptions: {
+                            columns: ':not(:last-child)'
+                        }
+                    },
+                    {
+                        extend: 'excel',
+                        exportOptions: {
+                            columns: ':not(:last-child)'
+                        }
+                    }
+                ],
+                columnDefs: [
+                    {
+                        targets: 3,
+                        orderable: false,
+                        searchable: false
+                    }
+                ],
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json'
+                }
+            });
+        });
+    </script>
 }
-    </tbody>
-</table>
