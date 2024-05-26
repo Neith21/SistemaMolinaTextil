@@ -1,68 +1,104 @@
 ﻿@model IEnumerable<MolinaTextileSystem.Models.ProductModel>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Listado de Productos";
 }
 
-<h1>Index</h1>
+<h1 style="text-align:center">Listado de Productos</h1>
 
-<p>
-    <a asp-action="Create">Crear nuevo registro</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ProductId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ProductName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ProductSize)
-            </th>
-            <th>
-                Patrón
-            </th>
-            <th>
-                Estado
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProductId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProductName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProductSize)
-            </td>
-            <td>
-                    @item.Pattern.PatternName
-            </td>
-            <td>
-                    @item.States.StateName
-            </td>
-            <td>
-                    <a asp-controller="Product"
-                       asp-action="Edit"
-                       asp-route-id="@item.ProductId"
-                       class="btn btn-primary">
-                        Editar
-                    </a>
-                    <a asp-controller="Product"
-                       asp-action="Delete"
-                       asp-route-id="@item.ProductId"
-                       class="btn btn-danger">
-                        Eliminar
-                    </a>
-            </td>
-        </tr>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="mb-3 mb-3">
+                <a asp-action="Create" asp-controller="Product" class="btn btn-success">
+                    Nuevo Producto
+                </a>
+            </div>
+
+            @if (TempData["message"] != null)
+            {
+                <div class="alert alert-primary" role="alert">
+                    @TempData["message"]
+                </div>
+            }
+            <table class="table table-bordered table-striped table-responsive" id="productTable">
+                <thead>
+                    <tr>
+                        <td>Nombre</td>
+                        <td>Tamaño</td>
+                        <td>ID de Patrón</td>
+                        <td>ID de Estado</td>
+                        <td>Acciones</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var product in Model)
+                    {
+                        <tr>
+                            <td>@product.ProductName</td>
+                            <td>@product.ProductSize</td>
+                            <td>@product.PatternId</td>
+                            <td>@product.StateId</td>
+                            <td>
+                                <a asp-controller="Product"
+                                   asp-action="Edit"
+                                   asp-route-id="@product.ProductId"
+                                   class="btn btn-primary">
+                                    <i class="fa fa-pencil-alt"></i>
+                                </a>
+                                <a asp-controller="Product"
+                                   asp-action="Delete"
+                                   asp-route-id="@product.ProductId"
+                                   class="btn btn-danger">
+                                    <i class="fa fa-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $("#productTable").DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        extend: 'csv',
+                        exportOptions: {
+                            columns: ':not(:last-child)'
+                        }
+                    },
+                    {
+                        extend: 'pdf',
+                        exportOptions: {
+                            columns: ':not(:last-child)'
+                        }
+                    },
+                    {
+                        extend: 'excel',
+                        exportOptions: {
+                            columns: ':not(:last-child)'
+                        }
+                    }
+                ],
+                columnDefs: [
+                    {
+                        targets: 4,
+                        orderable: false,
+                        searchable: false
+                    }
+                ],
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json'
+                }
+            });
+        });
+    </script>
 }
-    </tbody>
-</table>
