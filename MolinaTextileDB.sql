@@ -14,18 +14,11 @@ CREATE TABLE Employees(
 );
 GO
 
-INSERT INTO Employees VALUES('Juan', 'Perez', 'Colina Abajo', '1111-1111', 'jpca12@gmail.com');
-GO
-
 CREATE TABLE Roles(
 	rolId INT PRIMARY KEY IDENTITY(1, 1) NOT NULL,
 	rolName VARCHAR(50) NOT NULL,
 	rolDescription VARCHAR(255) NOT NULL
 )
-GO
-
-INSERT INTO Roles VALUES ('Administrador', 'Rol mas Alto')
-INSERT INTO Roles VALUES ('Empleado', 'Rol secundario')
 GO
 
 CREATE TABLE LoginCredentials(
@@ -37,10 +30,6 @@ CREATE TABLE LoginCredentials(
 );
 GO
 
-INSERT INTO LoginCredentials VALUES ('admin', 'admin123', 1, 1)
-INSERT INTO LoginCredentials VALUES ('empleado', 'empleado123', 2, 1)
-GO
-
 ---------------------------------------------------------------------
 CREATE TABLE Suppliers(
 	SupplierId INT PRIMARY KEY IDENTITY(1, 1) NOT NULL,
@@ -50,22 +39,12 @@ CREATE TABLE Suppliers(
 	SupplierEmail NVARCHAR(100)
 );
 GO
-INSERT INTO Suppliers (SupplierName, Manager, SupplierPhone, SupplierEmail)
-VALUES 
-    ('Proveedor1', 'Gerente1', '123456789', 'proveedor1@example.com'),
-    ('Proveedor2', 'Gerente2', '987654321', 'proveedor2@example.com');
-GO
 
 CREATE TABLE Categories(
 	CategoryId INT PRIMARY KEY IDENTITY(1, 1) NOT NULL,
 	CategoryName VARCHAR(50) NOT NULL,
 	CategoryDescription VARCHAR(255)
 );
-GO
-INSERT INTO Categories (CategoryName, CategoryDescription)
-VALUES 
-    ('Categoría1', 'Descripción de la categoría 1'),
-    ('Categoría2', 'Descripción de la categoría 2');
 GO
 
 CREATE TABLE RawMaterials(
@@ -78,22 +57,12 @@ CREATE TABLE RawMaterials(
 	SupplierId INT NOT NULL FOREIGN KEY REFERENCES Suppliers(SupplierId),
 );
 GO
-INSERT INTO RawMaterials (RawMaterialName, RawMaterialDescription, RawMaterialPurchasePrice, RawMaterialQuantity, CategoryId, SupplierId)
-VALUES 
-    ('Material1', 'Descripción del Material 1', 10.99, 100, 1, 1),
-    ('Material2', 'Descripción del Material 2', 15.99, 150, 2, 2);
-GO
 
 CREATE TABLE Patterns(
 	PatternId INT NOT NULL PRIMARY KEY IDENTITY(1, 1),
 	PatternName NVARCHAR(50) NOT NULL,
 	PatternDescription VARCHAR(255)
 );
-GO
-INSERT INTO Patterns (PatternName, PatternDescription)
-VALUES 
-    ('Pattern1', 'Descripción del Pattern 1'),
-    ('Pattern2', 'Descripción del Pattern 2');
 GO
 
 CREATE TABLE PatternDetails(
@@ -109,9 +78,6 @@ CREATE TABLE States(
 	StateName VARCHAR(30) NOT NULL,
 	StateDescription VARCHAR(255)
 );
-GO
-INSERT INTO States (StateName, StateDescription)
-VALUES ('Active', 'This state indicates that the item is active and available for use.');
 GO
 
 CREATE TABLE Products(
@@ -129,9 +95,6 @@ CREATE TABLE Customers(
 	CustomerAddress NVARCHAR(255),
 	CustomerPhone VARCHAR(20)
 );
-GO
-INSERT INTO Customers (CustomerName, CustomerAddress, CustomerPhone)
-VALUES ('Juan Pérez', 'Calle Falsa 123', '555-1234');
 GO
 
 CREATE TABLE CustomerOrders(
@@ -986,4 +949,139 @@ BEGIN
     DELETE FROM RawMaterials
     WHERE RawMaterialId = @RawMaterialId;
 END;
+GO
+
+-- Tabla Employees
+INSERT INTO Employees (EmployeeName, EmployeeLastname, EmployeeAddress, EmployeePhone, EmployeeEmail)
+VALUES 
+('Juan', 'Pérez', 'San Ildefonso', '71505007', 'juan.perez@textileria.com'),
+('Ana', 'Gómez', 'San Ildefonso', '63012526', 'ana.gomez@textileria.com'),
+('Luis', 'Martínez', 'San Ildefonso', '74568542', 'luis.martinez@textileria.com'),
+('María', 'Rodríguez', 'San Ildefonso', '70122012', 'maria.rodriguez@textileria.com'),
+('Carlos', 'López', 'Santa Barbara', '63254584', 'carlos.lopez@textileria.com'),
+('Lucía', 'Hernández', 'Divisadero', '71505454', 'lucia.hernandez@textileria.com'),
+('Miguel', 'García', 'Ciudad Dolores', '74589654', 'miguel.garcia@textileria.com'),
+('Sofía', 'Jiménez', 'Apastepeque', '63212542', 'sofia.jimenez@textileria.com'),
+('Javier', 'Ruiz', 'San Ildefonso', '65879521', 'javier.ruiz@textileria.com'),
+('Elena', 'Torres', 'San Ildefonso', '75212425', 'elena.torres@textileria.com');
+GO
+
+-- Tabla Roles
+INSERT INTO Roles VALUES ('Administrador', 'Rol mas Alto')
+INSERT INTO Roles VALUES ('Empleado', 'Rol secundario')
+GO
+
+-- Tabla LoginCredentials
+INSERT INTO LoginCredentials VALUES ('admin', 'admin123', 1, 1)
+INSERT INTO LoginCredentials VALUES ('empleado', 'empleado123', 2, 1)
+GO
+
+-- Tabla Suppliers
+INSERT INTO Suppliers (SupplierName, Manager, SupplierPhone, SupplierEmail)
+VALUES
+('Coplasa', 'Fernando Ortega', '71650339', 'sanvicente@coplasa.com.sv'),
+('Deposito de telas', 'Gabriela Moreno', '23473000', 'sanvicente@depotelas.com')
+GO
+
+-- Tabla Categories
+INSERT INTO Categories (CategoryName, CategoryDescription)
+VALUES
+('Algodón', 'Material textil suave y cómodo'),
+('Poliéster', 'Material textil resistente y duradero'),
+('Lana', 'Material textil cálido y suave'),
+('Seda', 'Material textil suave y brillante'),
+('Lino', 'Material textil fresco y ligero'),
+('Nylon', 'Material textil resistente al desgaste'),
+('Rayón', 'Material textil con textura suave'),
+('Spandex', 'Material textil elástico y resistente'),
+('Acrílico', 'Material textil similar a la lana'),
+('Franela', 'Material textil suave y cálido');
+GO
+
+-- Tabla RawMaterials
+INSERT INTO RawMaterials (RawMaterialName, RawMaterialDescription, RawMaterialPurchasePrice, RawMaterialQuantity, CategoryId, SupplierId)
+VALUES
+('Tela de Algodón', 'Tela de alta calidad', 150.00, 500, 1, 1),
+('Hilo de Poliéster', 'Hilo resistente para coser', 50.00, 2000, 2, 2),
+('Tela de Lana', 'Tela cálida para abrigos', 200.00, 300, 3, 1),
+('Tela de Seda', 'Tela suave y brillante', 250.00, 150, 4, 2),
+('Tela de Lino', 'Tela fresca y ligera', 180.00, 400, 5, 1),
+('Hilo de Nylon', 'Hilo resistente al desgaste', 40.00, 2500, 6, 2),
+('Tela de Rayón', 'Tela con textura suave', 160.00, 350, 7, 1),
+('Tela de Spandex', 'Tela elástica y resistente', 220.00, 100, 8, 2),
+('Fibra Acrílica', 'Fibra similar a la lana', 120.00, 600, 9, 1),
+('Tela de Franela', 'Tela suave y cálida', 140.00, 450, 10, 2);
+GO
+
+-- Tabla Patterns
+INSERT INTO Patterns (PatternName, PatternDescription)
+VALUES
+('Patrón de Camiseta', 'Patrón para camisetas de diferentes tallas'),
+('Patrón de Pantalón', 'Patrón para pantalones de vestir'),
+('Patrón de Chaqueta', 'Patrón para chaquetas de invierno'),
+('Patrón de Vestido', 'Patrón para vestidos casuales'),
+('Patrón de Falda', 'Patrón para faldas de varias longitudes'),
+('Patrón de Uniforme', 'Patrón para uniformes escolares y empresariales'),
+('Patrón de Deportivos', 'Patrón para ropa deportiva'),
+('Patrón de Traje', 'Patrón para trajes formales'),
+('Patrón de Blusa', 'Patrón para blusas elegantes'),
+('Patrón de Suéter', 'Patrón para suéteres de invierno');
+GO
+
+-- Tabla PatternDetails
+INSERT INTO PatternDetails (RawMaterialQuantity, RawMaterialId, PatternId)
+VALUES
+(1.5, 1, 1),
+(2.0, 2, 2),
+(3.0, 3, 3),
+(2.5, 4, 4),
+(1.8, 5, 5),
+(2.2, 6, 6),
+(2.5, 7, 7),
+(3.5, 8, 8),
+(1.7, 9, 9),
+(2.8, 10, 10);
+GO
+
+-- Tabla States
+INSERT INTO States (StateName, StateDescription)
+VALUES
+('Producción', 'Estado en que el producto se encuentra en proceso de fabricación'),
+('En almacén', 'Estado en que el producto está almacenado y listo para la distribución'),
+('En venta', 'Estado en que el producto está disponible para la venta al público'),
+('Agotado', 'Estado en que el producto ya no está disponible en inventario'),
+('Devuelto', 'Estado en que el producto ha sido devuelto por el cliente');
+GO
+
+-- Tabla Products
+INSERT INTO Products (ProductName, ProductSize, PatternId, StateId)
+VALUES
+('Camiseta Básica', 'M', 1, 2),
+('Pantalón de Vestir', 'L', 2, 2),
+('Chaqueta', 'XL', 3, 2),
+('Vestido Casual', 'S', 4, 2),
+('Uniforme Escolar', 'L', 6, 2),
+('Conjunto Deportivo', 'M', 7, 2),
+('Traje Formal', 'XL', 8, 2);
+GO
+
+-- Tabla Customers
+INSERT INTO Customers (CustomerName, CustomerAddress, CustomerPhone)
+VALUES
+('Josefa Rodriguez', 'San Ildefonso', '00000000'),
+('C.E. Maria Luisa Vda de Marin', 'San Ildefonso', '00000000');
+GO
+
+-- Tabla CustomerOrders
+INSERT INTO CustomerOrders (CreationDate, DeliveryDate, TotalAmount, CustomerId, EmployeeId, StateId)
+VALUES
+('2024-06-05', '2024-06-08', 8.00, 1, 1, 1),
+('2024-06-05', '2024-07-05', 400.00, 2, 2, 1);
+GO
+
+-- Tabla CustomerOrderDetails
+INSERT INTO CustomerOrderDetails (UnitPrice, CustomerOrderDetailQuantity, CustomerOrderId, ProductId)
+VALUES
+(8.00, 1, 1, 1),
+(16.00, 25, 2, 5);
 GO
