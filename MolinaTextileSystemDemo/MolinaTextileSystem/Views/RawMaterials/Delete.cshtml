@@ -1,63 +1,82 @@
 ﻿@model MolinaTextileSystem.Models.RawMaterialsModel
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Eliminar Material";
 }
 
-<h1>Delete</h1>
+<div style="text-align: center;">
+    <h1>Eliminar Material</h1>
+    <h3>¿Está seguro que desea eliminar?</h3>
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>RawMaterialsModel</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RawMaterialId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.RawMaterialId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RawMaterialName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.RawMaterialName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RawMaterialDescription)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.RawMaterialDescription)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RawMaterialPurchasePrice)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.RawMaterialPurchasePrice)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RawMaterialQuantity)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.RawMaterialQuantity)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CategoryId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CategoryId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.SupplierId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.SupplierId)
-        </dd>
-    </dl>
-    
-    <form asp-action="Delete">
-        <input asp-for="RawMaterialId" class="form-control" type="hidden" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
+    <div style="margin: 0 auto; width: fit-content;">
+        <table style="text-align: justify; border-collapse: separate; border-spacing: 0 8px;">
+            <tbody>
+                <tr>
+                    <th style="padding-bottom: 8px;">
+                        @Html.DisplayNameFor(model => model.RawMaterialId)
+                    </th>
+                    <td style="padding: 0px 0px 8px 10px;">
+                        @Html.DisplayFor(model => model.RawMaterialId)
+                    </td>
+                </tr>
+                <tr>
+                    <th style="padding-bottom: 8px;">
+                        @Html.DisplayNameFor(model => model.RawMaterialName)
+                    </th>
+                    <td style="padding: 0px 0px 8px 10px;">
+                        @Html.DisplayFor(model => model.RawMaterialName)
+                    </td>
+                </tr>
+                <tr>
+                    <th style="padding-bottom: 8px;">
+                        @Html.DisplayNameFor(model => model.RawMaterialDescription)
+                    </th>
+                    <td style="padding: 0px 0px 8px 10px;">
+                        @Html.DisplayFor(model => model.RawMaterialDescription)
+                    </td>
+                </tr>
+                <tr>
+                    <th style="padding-bottom: 8px;">
+                        @Html.DisplayNameFor(model => model.RawMaterialPurchasePrice)
+                    </th>
+                    <td style="padding: 0px 0px 8px 10px;">
+                        @Html.DisplayFor(model => model.RawMaterialPurchasePrice)
+                    </td>
+                </tr>
+                <tr>
+                    <th style="padding-bottom: 8px;">
+                        @Html.DisplayNameFor(model => model.RawMaterialQuantity)
+                    </th>
+                    <td style="padding: 0px 0px 8px 10px;">
+                        @Html.DisplayFor(model => model.RawMaterialQuantity)
+                    </td>
+                </tr>
+                <tr>
+                    <th style="padding-bottom: 8px;">
+                        @Html.DisplayNameFor(model => model.CategoryId)
+                    </th>
+                    <td style="padding: 0px 0px 8px 10px;">
+                        @Html.DisplayFor(model => model.CategoryId)
+                    </td>
+                </tr>
+                <tr>
+                    <th style="padding-bottom: 8px;">
+                        @Html.DisplayNameFor(model => model.SupplierId)
+                    </th>
+                    <td style="padding: 0px 0px 8px 10px;">
+                        @Html.DisplayFor(model => model.SupplierId)
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="d-flex justify-content-between">
+            <form id="deleteForm" asp-action="Delete" style="margin: 0 20px;">
+                <input asp-for="RawMaterialId" type="hidden" class="form-control" />
+                <input type="submit" value="Eliminar" class="btn btn-danger" />
+                <a asp-action="Index" class="btn btn-primary">Regresar al listado</a>
+            </form>
+        </div>
+    </div>
 </div>
+

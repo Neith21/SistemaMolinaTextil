@@ -5,7 +5,7 @@
 }
 
 <div style="text-align: center;">
-    <h1>Eliminar Detalle</h1>
+    <h1>Eliminar Producto</h1>
     <h3>¿Está seguro que desea eliminar?</h3>
 
     <div style="margin: 0 auto; width: fit-content;">
@@ -58,8 +58,8 @@
             <form id="deleteForm" asp-action="Delete" style="margin: 0 20px;">
                 <input asp-for="ProductId" type="hidden" class="form-control" />
                 <input type="submit" value="Eliminar" class="btn btn-danger" />
+                <a asp-action="Index" class="btn btn-primary">Regresar al listado</a>
             </form>
-            <a id="regresarLink" class="btn btn-primary">Regresar al listado</a>
         </div>
     </div>
 </div>

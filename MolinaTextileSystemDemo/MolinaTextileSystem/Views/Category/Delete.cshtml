@@ -4,35 +4,46 @@
     ViewData["Title"] = "Eliminar Categoría";
 }
 
-<h1 style="text-align:center">Eliminar Categoría</h1>
+<div style="text-align: center;">
+    <h1>Eliminar Categoría</h1>
+    <h3>¿Está seguro que desea eliminar?</h3>
 
-<h3>¿Está seguro que desea eliminar esta categoría?</h3>
-<div>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.CategoryId)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CategoryId)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.CategoryName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CategoryName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.CategoryDescription)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CategoryDescription)
-        </dd>
-    </dl>
+    <div style="margin: 0 auto; width: fit-content;">
+        <table style="text-align: justify; border-collapse: separate; border-spacing: 0 8px;">
+            <tbody>
+                <tr>
+                    <th style="padding-bottom: 8px;">
+                        @Html.DisplayNameFor(model => model.CategoryId)
+                    </th>
+                    <td style="padding: 0px 0px 8px 10px;">
+                        @Html.DisplayFor(model => model.CategoryId)
+                    </td>
+                </tr>
+                <tr>
+                    <th style="padding-bottom: 8px;">
+                        @Html.DisplayNameFor(model => model.CategoryName)
+                    </th>
+                    <td style="padding: 0px 0px 8px 10px;">
+                        @Html.DisplayFor(model => model.CategoryName)
+                    </td>
+                </tr>
+                <tr>
+                    <th style="padding-bottom: 8px;">
+                        @Html.DisplayNameFor(model => model.CategoryDescription)
+                    </th>
+                    <td style="padding: 0px 0px 8px 10px;">
+                        @Html.DisplayFor(model => model.CategoryDescription)
+                    </td>
+                </tr>
+            </tbody>
+        </table>
 
-    <form asp-action="Delete">
-        <input asp-for="CategoryId" hidden class="form-control" />
-        <input type="submit" value="Eliminar" class="btn btn-danger" /> |
-        <a asp-action="Index" class="btn btn-primary">Regresar</a>
-    </form>
+        <div class="d-flex justify-content-between">
+            <form id="deleteForm" asp-action="Delete" style="margin: 0 20px;">
+                <input asp-for="CategoryId" hidden class="form-control" />                
+                <input type="submit" value="Eliminar" class="btn btn-danger" />
+                <a asp-action="Index" class="btn btn-primary">Regresar al listado</a>
+            </form>
+        </div>
+    </div>
 </div>

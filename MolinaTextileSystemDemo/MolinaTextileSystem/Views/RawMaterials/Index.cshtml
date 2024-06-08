@@ -4,62 +4,69 @@
     ViewData["Title"] = "Materiales";
 }
 
-<h1 style="text-align:center">Materiales</h1>
+<h1 style="text-align:center">Listado de Materiales</h1>
 
 <div class="container">
-    <div class="row d-flex">
-        <div class="col-6">
-            <div class="mb-3">
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="mb-3 mb-3">
                 <a asp-action="Create" asp-controller="RawMaterials" class="btn btn-success">
-                    Crear nuevo material
+                    Añadir material
                 </a>
             </div>
+
+        @if (TempData["message"] != null)
+        {
+            <div class="alert alert-primary" role="alert">
+                @TempData["message"]
+            </div>
+        }
+
+        <table class="table table-bordered table-striped table-responsive" id="rawMaterialsTable">
+            <thead>
+                <tr>
+                        <td>Id Material</td>
+                        <td>Materia Prima</td>
+                        <td>Descripción</td>
+                        <td>Precio</td>
+                        <td>Cantidad</td>
+                        <td>Categoría</td>
+                        <td>Proveedor</td>
+                        <td>Acciones</td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.RawMaterialId)</td>
+                        <td>@Html.DisplayFor(modelItem => item.RawMaterialName)</td>
+                        <td>@Html.DisplayFor(modelItem => item.RawMaterialDescription)</td>
+                        <td>@Html.DisplayFor(modelItem => item.RawMaterialPurchasePrice)</td>
+                        <td>@Html.DisplayFor(modelItem => item.RawMaterialQuantity)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Category.CategoryName)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Supplier.SupplierName)</td>
+                        <td>
+                            <a asp-controller="RawMaterials"
+                            asp-action="Edit" 
+                            asp-route-id="@item.RawMaterialId"
+                            class="btn btn-primary">
+                                <i class="fa fa-pencil-alt"></i>
+                            </a>
+                            <a asp-controller="RawMaterials"
+                            asp-action="Delete"
+                            asp-route-id="@item.RawMaterialId"
+                            class="btn btn-danger">
+                                <i class="fa fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
         </div>
     </div>
-
-    @if (TempData["message"] != null)
-    {
-        <div class="alert alert-primary" role="alert">
-            @TempData["message"]
-        </div>
-    }
-
-    <table class="table table-bordered table-striped table-responsive" id="rawMaterialsTable">
-        <thead>
-            <tr>
-                <td>@Html.DisplayNameFor(model => model.RawMaterialId)</td>
-                <td>@Html.DisplayNameFor(model => model.RawMaterialName)</td>
-                <td>@Html.DisplayNameFor(model => model.RawMaterialDescription)</td>
-                <td>@Html.DisplayNameFor(model => model.RawMaterialPurchasePrice)</td>
-                <td>@Html.DisplayNameFor(model => model.RawMaterialQuantity)</td>
-                <td>@Html.DisplayNameFor(model => model.Category.CategoryName)</td>
-                <td>@Html.DisplayNameFor(model => model.Supplier.SupplierName)</td>
-                <td>Acciones</td>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>@Html.DisplayFor(modelItem => item.RawMaterialId)</td>
-                    <td>@Html.DisplayFor(modelItem => item.RawMaterialName)</td>
-                    <td>@Html.DisplayFor(modelItem => item.RawMaterialDescription)</td>
-                    <td>@Html.DisplayFor(modelItem => item.RawMaterialPurchasePrice)</td>
-                    <td>@Html.DisplayFor(modelItem => item.RawMaterialQuantity)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Category.CategoryName)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Supplier.SupplierName)</td>
-                    <td>
-                        <a asp-controller="RawMaterials" asp-action="Edit" asp-route-id="@item.RawMaterialId" class="btn btn-primary">
-                            <i class="fa fa-pencil-alt"></i>
-                        </a>
-                        <a asp-controller="RawMaterials" asp-action="Delete" asp-route-id="@item.RawMaterialId" class="btn btn-danger">
-                            <i class="fa fa-trash"></i>
-                        </a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
 </div>
 
 @section Scripts {

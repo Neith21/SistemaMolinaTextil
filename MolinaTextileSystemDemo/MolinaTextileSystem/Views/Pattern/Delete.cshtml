@@ -4,36 +4,46 @@
     ViewData["Title"] = "Eliminar Patrón";
 }
 
-<h1>Eliminar patrón</h1>
+<div style="text-align: center;">
+    <h1>Eliminar Patrón</h1>
+    <h3>¿Está seguro que desea eliminar?</h3>
 
-<h3>¿Estás seguro de eliminar este registro?</h3>
-<div>
-    <h4>PatternModel</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PatternId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PatternId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PatternName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PatternName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PatternDescription)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PatternDescription)
-        </dd>
-    </dl>
-    
-    <form asp-action="Delete">
-        <input asp-for="PatternId" hidden class="form-control" />
-        <input type="submit" value="Eliminar" class="btn btn-danger" /> |
-        <a asp-action="Index" class="btn btn-warning">Regresar</a>
-    </form>
+    <div style="margin: 0 auto; width: fit-content;">
+        <table style="text-align: justify; border-collapse: separate; border-spacing: 0 8px;">
+            <tbody>
+                <tr>
+                    <th style="padding-bottom: 8px;">
+                        @Html.DisplayNameFor(model => model.PatternId)
+                    </th>
+                    <td style="padding: 0px 0px 8px 10px;">
+                        @Html.DisplayFor(model => model.PatternId)
+                    </td>
+                </tr>
+                <tr>
+                    <th style="padding-bottom: 8px;">
+                        @Html.DisplayNameFor(model => model.PatternName)
+                    </th>
+                    <td style="padding: 0px 0px 8px 10px;">
+                        @Html.DisplayFor(model => model.PatternName)
+                    </td>
+                </tr>
+                <tr>
+                    <th style="padding-bottom: 8px;">
+                        @Html.DisplayNameFor(model => model.PatternDescription)
+                    </th>
+                    <td style="padding: 0px 0px 8px 10px;">
+                        @Html.DisplayFor(model => model.PatternDescription)
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="d-flex justify-content-between">
+            <form id="deleteForm" asp-action="Delete" style="margin: 0 20px;">
+                <input asp-for="PatternId" hidden class="form-control" />
+                <input type="submit" value="Eliminar" class="btn btn-danger" />
+                <a asp-action="Index" class="btn btn-primary">Regresar al listado</a>
+            </form>
+        </div>
+    </div>
 </div>

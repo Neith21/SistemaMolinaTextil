@@ -4,32 +4,34 @@
     ViewData["Title"] = "Agregar Patrón";
 }
 
-<h4>Agregar patrón</h4>
+<h1 style="text-align:center">Creación de Nueva Categoría</h1>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <form asp-action="Create" onsubmit="return confirmAction();">
+                @Html.AntiForgeryToken()
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="PatternName" class="control-label"></label>
-                <input asp-for="PatternName" class="form-control" />
-                <span asp-validation-for="PatternName" class="text-danger"></span>
+                <div class="mb-3">
+                    <label asp-for="PatternName" class="control-label"></label>
+                    <input asp-for="PatternName" class="form-control" />
+                    <span asp-validation-for="PatternName" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="PatternDescription" class="control-label"></label>
-                <input asp-for="PatternDescription" class="form-control" />
-                <span asp-validation-for="PatternDescription" class="text-danger"></span>
+                <div class="mb-3">
+                    <label asp-for="PatternDescription" class="control-label"></label>
+                    <input asp-for="PatternDescription" class="form-control" />
+                    <span asp-validation-for="PatternDescription" class="text-danger"></span>
             </div>
             <hr />
-            <div class="form-group">
-                <input type="submit" value="Agregar Patrón" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
+                <div class="form-group">
+                    <input type="submit" value="Crear" class="btn btn-primary" />
 
-<div>
-    <a asp-action="Index" class="btn btn-warning">Regresar</a>
+                    <a asp-action="Index" class="btn btn-primary">Regresar al listado</a>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 
 @section Scripts {
